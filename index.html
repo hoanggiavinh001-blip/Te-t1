@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -24,6 +25,7 @@ header {
     justify-content: space-between;
     align-items: center;
     border-bottom: 2px solid #00ed72;
+    gap: 10px;
 }
 
 .logo {
@@ -42,6 +44,16 @@ header {
 
 .coins {
     color: gold;
+}
+
+.account-btn {
+    background: #00ed72;
+    color: black;
+    border: none;
+    border-radius: 7px;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .layout {
@@ -160,7 +172,90 @@ main {
     font-weight: bold;
 }
 
+/* ACCOUNT MODAL */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 400px;
+    background: #101b29;
+    border: 1px solid #00ed72;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 0 25px #00ed7233;
+}
+
+.modal-box h2 {
+    color: #00ed72;
+    margin-top: 0;
+    text-align: center;
+}
+
+.modal-box input {
+    width: 100%;
+    padding: 13px;
+    margin: 8px 0;
+    background: #080d14;
+    border: 1px solid #394653;
+    border-radius: 7px;
+    color: white;
+    outline: none;
+}
+
+.modal-box input:focus {
+    border-color: #00ed72;
+}
+
+.modal-box button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.create-btn {
+    background: #00ed72;
+    color: black;
+}
+
+.close-btn {
+    background: #293746;
+    color: white;
+}
+
+.account-status {
+    background: #151e29;
+    border: 1px solid #00ed72;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+#account-message {
+    font-size: 13px;
+    color: #00ed72;
+    text-align: center;
+    margin-top: 12px;
+}
+
 @media(max-width:600px) {
+    header {
+        flex-wrap: wrap;
+    }
+
     .sidebar {
         width: 75px;
     }
@@ -194,13 +289,18 @@ main {
     <div class="logo">GERMAIN <span>FC</span></div>
 
     <div class="profile">
-        👤 Guest_742931<br>
+        👤 <span id="profile-name">Guest_742931</span><br>
         <span style="color:#00ed72">LV.1</span>
     </div>
 
     <div class="coins">
-        🪙 200.000 💎 100
+        🪙 <span id="coin-count">200.000</span> 💎
+        <span id="gem-count">100</span>
     </div>
+
+    <button class="account-btn" onclick="openAccount()">
+        👤 Tài khoản
+    </button>
 </header>
 
 <div class="layout">
@@ -237,11 +337,85 @@ main {
 </main>
 </div>
 
+<!-- ACCOUNT MODAL -->
+
+<div class="modal" id="account-modal">
+    <div class="modal-box">
+
+        <h2>👤 TÀI KHOẢN GERMAIN FC</h2>
+
+        <div id="account-form">
+
+            <p style="text-align:center;color:#aaa;font-size:13px">
+                Tạo tài khoản để sao lưu dữ liệu game.
+            </p>
+
+            <input
+                id="account-username"
+                type="text"
+                placeholder="Tên tài khoản"
+                maxlength="25"
+            >
+
+            <input
+                id="account-email"
+                type="email"
+                placeholder="Địa chỉ email"
+            >
+
+            <input
+                id="account-password"
+                type="password"
+                placeholder="Mật khẩu (ít nhất 8 ký tự)"
+            >
+
+            <button class="create-btn" onclick="createAccount()">
+                TẠO TÀI KHOẢN & SAO LƯU
+            </button>
+
+        </div>
+
+        <div id="account-info" style="display:none">
+            <div class="account-status">
+                <p>✅ Tài khoản đã được tạo</p>
+                <p id="saved-username"></p>
+                <p id="saved-email"></p>
+                <p style="color:#00ed72;font-size:13px">
+                    💾 Dữ liệu đang được lưu trên thiết bị.
+                </p>
+            </div>
+
+            <button class="create-btn" onclick="backupGame()">
+                💾 SAO LƯU NGAY
+            </button>
+
+            <button class="close-btn" onclick="restoreGame()">
+                🔄 KHÔI PHỤC DỮ LIỆU
+            </button>
+        </div>
+
+        <p id="account-message"></p>
+
+        <button class="close-btn" onclick="closeAccount()">
+            ĐÓNG
+        </button>
+
+    </div>
+</div>
+
 <script>
 
 // ẢNH TỔNG HỢP TRÊN GITHUB
 const SPRITE =
 "https://raw.githubusercontent.com/hoanggiavinh001-blip/Te-t1/main/IMG_0680.png";
+
+// DỮ LIỆU GAME
+let gameData = {
+    coins: 200000,
+    gems: 100,
+    level: 1,
+    club: "JUVENTUS"
+};
 
 // DANH SÁCH CẦU THỦ
 const players = [
@@ -280,8 +454,6 @@ const players = [
 ];
 
 // VỊ TRÍ CÁC THẺ TRONG ẢNH
-// Tọa độ mẫu, cần căn theo ảnh thực tế.
-
 const boxes = Array.from(
 {length:32},
 (_,i)=>({
@@ -332,10 +504,14 @@ image.onload = function() {
         const info = document.createElement("div");
         info.className = "player-info";
 
-        info.innerHTML = `
-            <strong>${name}</strong>
-            <span>OVR ${ovr} · ${pos}</span>
-        `;
+        const playerName = document.createElement("strong");
+        playerName.textContent = name;
+
+        const playerStats = document.createElement("span");
+        playerStats.textContent = `OVR ${ovr} · ${pos}`;
+
+        info.appendChild(playerName);
+        info.appendChild(playerStats);
 
         card.appendChild(img);
         card.appendChild(info);
@@ -361,7 +537,118 @@ image.onerror = function() {
 
 image.src = SPRITE;
 
-</script>
 
-</body>
-</html>
+// ============================
+// HỆ THỐNG TÀI KHOẢN SAO LƯU
+// ============================
+
+const ACCOUNT_KEY = "GERMAIN_FC_ACCOUNT";
+const BACKUP_KEY = "GERMAIN_FC_BACKUP";
+
+function openAccount() {
+    document.getElementById("account-modal").style.display = "flex";
+    updateAccountUI();
+}
+
+function closeAccount() {
+    document.getElementById("account-modal").style.display = "none";
+}
+
+function showMessage(message) {
+    document.getElementById("account-message").textContent = message;
+}
+
+// MÃ HÓA MẬT KHẨU BẰNG SHA-256
+async function hashPassword(password) {
+    if (!window.crypto || !crypto.subtle) {
+        throw new Error("Trình duyệt cần HTTPS hoặc localhost để tạo tài khoản an toàn hơn.");
+    }
+
+    const data = new TextEncoder().encode(password);
+    const hash = await crypto.subtle.digest("SHA-256", data);
+
+    return Array.from(new Uint8Array(hash))
+        .map(byte => byte.toString(16).padStart(2,"0"))
+        .join("");
+}
+
+// TẠO TÀI KHOẢN
+async function createAccount() {
+
+    const username =
+        document.getElementById("account-username").value.trim();
+
+    const email =
+        document.getElementById("account-email").value.trim();
+
+    const password =
+        document.getElementById("account-password").value;
+
+    if (!username || !email || !password) {
+        showMessage("Vui lòng nhập đầy đủ thông tin!");
+        return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showMessage("Email không hợp lệ!");
+        return;
+    }
+
+    if (password.length < 8) {
+        showMessage("Mật khẩu phải có ít nhất 8 ký tự!");
+        return;
+    }
+
+    if (localStorage.getItem(ACCOUNT_KEY)) {
+        showMessage("Thiết bị này đã có tài khoản!");
+        return;
+    }
+
+    try {
+        const passwordHash = await hashPassword(password);
+
+        const account = {
+            username: username,
+            email: email,
+            passwordHash: passwordHash,
+            createdAt: new Date().toISOString()
+        };
+
+        localStorage.setItem(
+            ACCOUNT_KEY,
+            JSON.stringify(account)
+        );
+
+        backupGame();
+
+        updateAccountUI();
+
+        showMessage("Tạo tài khoản và sao lưu thành công!");
+
+    } catch (error) {
+        showMessage(error.message);
+    }
+}
+
+// CẬP NHẬT GIAO DIỆN TÀI KHOẢN
+function updateAccountUI() {
+
+    const account = localStorage.getItem(ACCOUNT_KEY);
+
+    const form = document.getElementById("account-form");
+    const info = document.getElementById("account-info");
+
+    if (account) {
+
+        const data = JSON.parse(account);
+
+        form.style.display = "none";
+        info.style.display = "block";
+
+        document.getElementById("saved-username").textContent =
+            "Tên: " + data.username;
+
+        document.getElementById("saved-email").textContent =
+            "Email: " + data.email;
+
+        document.getElementById("profile

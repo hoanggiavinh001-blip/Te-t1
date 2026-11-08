@@ -1,284 +1,75 @@
-```html
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GERMAIN FC</title>
-
 <style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    background: #080d14;
-    color: white;
-    font-family: Arial, sans-serif;
-}
-
-header {
-    background: #05080d;
-    padding: 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #00ed72;
-    gap: 10px;
-}
-
-.logo {
-    font-size: 25px;
-    font-weight: bold;
-}
-
-.logo span {
-    color: #00ed72;
-}
-
-.profile {
-    font-size: 13px;
-    text-align: right;
-}
-
-.coins {
-    color: gold;
-}
-
-.account-btn {
-    background: #00ed72;
-    color: black;
-    border: none;
-    border-radius: 7px;
-    padding: 10px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.layout {
-    display: flex;
-    min-height: 90vh;
-}
-
-.sidebar {
-    width: 100px;
-    background: #05080d;
-    padding: 10px;
-}
-
-.sidebar button {
-    width: 100%;
-    padding: 17px 3px;
-    margin-bottom: 8px;
-    background: #151e29;
-    color: white;
-    border: 1px solid #293746;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.sidebar button:hover {
-    background: #008d49;
-}
-
-main {
-    flex: 1;
-    padding: 20px;
-    min-width: 0;
-}
-
-.hero {
-    padding: 30px;
-    min-height: 220px;
-    background: linear-gradient(120deg,#182b35,#07100e);
-    border: 1px solid #00ed72;
-    border-radius: 12px;
-    margin-bottom: 25px;
-}
-
-.hero h1 {
-    font-size: 40px;
-    margin: 10px 0;
-}
-
-.hero p {
-    color: #aaa;
-}
-
-.club {
-    color: gold;
-}
-
-.section-title {
-    margin: 25px 0 15px;
-}
-
-#player-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px;
-}
-
-.player-card {
-    background: #151e29;
-    padding: 7px;
-    border: 1px solid #394653;
-    border-radius: 10px;
-    cursor: pointer;
-    text-align: center;
-}
-
-.player-card:hover {
-    border-color: #00ed72;
-    transform: translateY(-3px);
-}
-
-.player-card img {
-    width: 100%;
-    border-radius: 7px;
-}
-
-.player-info {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding: 7px 0;
-}
-
-.player-info span {
-    color: #00ed72;
-    font-size: 12px;
-}
-
-.bottom-menu {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-    margin-top: 25px;
-}
-
-.bottom-menu button {
-    padding: 18px 5px;
-    background: #18232e;
-    color: white;
-    border: 1px solid #394653;
-    border-radius: 8px;
-}
-
-.bottom-menu .play {
-    background: #00ed72;
-    color: black;
-    font-weight: bold;
-}
-
-/* ACCOUNT MODAL */
-
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.8);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
-}
-
-.modal-box {
-    width: 100%;
-    max-width: 400px;
-    background: #101b29;
-    border: 1px solid #00ed72;
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 0 25px #00ed7233;
-}
-
-.modal-box h2 {
-    color: #00ed72;
-    margin-top: 0;
-    text-align: center;
-}
-
-.modal-box input {
-    width: 100%;
-    padding: 13px;
-    margin: 8px 0;
-    background: #080d14;
-    border: 1px solid #394653;
-    border-radius: 7px;
-    color: white;
-    outline: none;
-}
-
-.modal-box input:focus {
-    border-color: #00ed72;
-}
-
-.modal-box button {
-    width: 100%;
-    padding: 13px;
-    margin-top: 10px;
-    border: none;
-    border-radius: 7px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.create-btn {
-    background: #00ed72;
-    color: black;
-}
-
-.close-btn {
-    background: #293746;
-    color: white;
-}
-
-.account-status {
-    background: #151e29;
-    border: 1px solid #00ed72;
-    border-radius: 10px;
-    padding: 15px;
-    margin-top: 15px;
-}
-
-#account-message {
-    font-size: 13px;
-    color: #00ed72;
-    text-align: center;
-    margin-top: 12px;
-}
-
-@media(max-width:600px) {
-    header {
-        flex-wrap: wrap;
-    }
-
-    .sidebar {
-        width: 75px;
-    }
-
-    .sidebar button {
-        font-size: 10px;
-    }
-
-    main {
-        padding: 10px;
-    }
-
-    #player-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .hero h1 {
-        font-size: 30px;
-    }
-
-    .bottom-menu {
-        grid-template-columns: repeat(2, 1fr);
-    }
+*{box-sizing:border-box}
+body{margin:0;background:#080d14;color:white;font-family:Arial,sans-serif}
+button{cursor:pointer;font-weight:bold}
+header{background:#05080d;padding:15px;display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:2px solid #00ed72;flex-wrap:wrap}
+.logo{font-size:24px;font-weight:bold}
+.logo span{color:#00ed72}
+.profile{text-align:right;font-size:13px}
+.coins{color:gold;font-size:13px}
+.layout{display:flex;min-height:90vh}
+.sidebar{width:105px;background:#05080d;padding:10px;flex-shrink:0}
+.sidebar button{width:100%;padding:15px 3px;margin-bottom:8px;background:#151e29;color:white;border:1px solid #293746;border-radius:8px}
+.sidebar button.active,.sidebar button:hover{background:#008d49}
+main{flex:1;padding:18px;min-width:0}
+.page{display:none}
+.page.active{display:block}
+.hero{padding:25px;min-height:190px;background:linear-gradient(120deg,#182b35,#07100e);border:1px solid #00ed72;border-radius:12px;margin-bottom:22px}
+.hero h1{font-size:38px;margin:10px 0}
+.club{color:gold}
+.section-title{margin:22px 0 14px}
+.btn{padding:12px 17px;background:#00ed72;color:#06140c;border:0;border-radius:8px}
+.btn.secondary{background:#263747;color:white}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.player-card{background:#151e29;padding:8px;border:1px solid #394653;border-radius:10px;text-align:center}
+.player-card img{width:100%;border-radius:7px;display:block}
+.player-info{display:flex;flex-direction:column;gap:5px;padding:8px 0;font-size:14px}
+.player-info span{color:#00ed72;font-size:12px}
+.panel{background:#111d2a;border:1px solid #293c4d;border-radius:12px;padding:15px;margin-bottom:15px}
+.stat-row{display:flex;gap:10px;flex-wrap:wrap}
+.stat{background:#182735;padding:12px;border-radius:8px;flex:1;min-width:100px;text-align:center}
+.stat strong{display:block;color:#00ed72;font-size:22px;margin-top:5px}
+.pack-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.pack{background:linear-gradient(145deg,#263e37,#111d2a);border:1px solid #00ed72;border-radius:10px;padding:15px;text-align:center}
+.pack .pack-icon{font-size:38px}
+.pack button{margin-top:10px;width:100%}
+.position-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.slot{background:#142432;border:1px dashed #668071;border-radius:9px;min-height:95px;padding:10px;text-align:center}
+.slot.filled{border:1px solid #00ed72}
+.slot b{display:block;color:#00ed72;margin-bottom:7px}
+.slot small{color:#aaa}
+.notice{color:#b7c6d0;font-size:13px;line-height:1.5}
+#match-stage{background:#173d2a;border:3px solid #d8e7d9;border-radius:12px;position:relative;overflow:hidden;height:330px;margin:15px 0;background-image:linear-gradient(90deg,transparent 49.7%,#ffffff66 49.7%,#ffffff66 50.3%,transparent 50.3%),linear-gradient(#ffffff22 1px,transparent 1px);background-size:100% 100%,100% 50%}
+.pitch-circle{position:absolute;width:115px;height:115px;border:2px solid #ffffff66;border-radius:50%;left:calc(50% - 57px);top:calc(50% - 57px)}
+.goal{position:absolute;right:0;top:35%;height:30%;width:24px;border:3px solid white;border-right:0}
+.runner{position:absolute;left:10%;top:65%;font-size:28px;z-index:2}
+.ball{position:absolute;left:15%;top:70%;font-size:22px;z-index:3}
+.match-label{text-align:center;color:#00ed72;font-weight:bold}
+#match-log{min-height:25px;text-align:center;color:#ddd}
+.modal{display:none;position:fixed;inset:0;background:#000d;z-index:1000;align-items:center;justify-content:center;padding:15px}
+.modal-box{width:100%;max-width:420px;background:#101b29;border:1px solid #00ed72;border-radius:15px;padding:22px}
+.modal-box h2{text-align:center;color:#00ed72}
+.modal-box input{width:100%;padding:14px;margin:7px 0;background:#080d14;border:1px solid #394653;border-radius:7px;color:white;font-size:16px}
+.modal-box button{width:100%;margin-top:10px}
+#message{color:#00ed72;text-align:center;font-size:13px;min-height:20px}
+#reveal-card{display:none;text-align:center;background:#182c37;border:1px solid gold;border-radius:12px;padding:18px;margin-top:15px}
+#reveal-card strong{font-size:24px;color:gold}
+@media(max-width:650px){
+ header{padding:10px}
+ .logo{font-size:20px}
+ .sidebar{width:72px;padding:5px}
+ .sidebar button{font-size:10px;padding:13px 2px}
+ main{padding:10px}
+ .grid,.pack-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .position-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .hero h1{font-size:30px}
 }
 </style>
 </head>
@@ -286,138 +77,144 @@ main {
 <body>
 
 <header>
-    <div class="logo">GERMAIN <span>FC</span></div>
-
-    <div class="profile">
-        👤 <span id="profile-name">Guest_742931</span><br>
-        <span style="color:#00ed72">LV.1</span>
-    </div>
-
-    <div class="coins">
-        🪙 <span id="coin-count">200.000</span> 💎
-        <span id="gem-count">100</span>
-    </div>
-
-    <button class="account-btn" onclick="openAccount()">
-        👤 Tài khoản
-    </button>
+ <div class="logo">GERMAIN <span>FC</span></div>
+ <div class="profile">
+  👤 <span id="profile-name">Guest</span><br>
+  <span style="color:#00ed72">LV.1</span>
+ </div>
+ <div class="coins">
+  🪙 <span id="coin-count">200.000</span>
+  💎 <span id="gem-count">100</span>
+ </div>
 </header>
 
 <div class="layout">
-
 <aside class="sidebar">
-    <button>🏠<br>Trang chủ</button>
-    <button>🏆<br>Sự kiện</button>
-    <button>🎁<br>Quà tặng</button>
-    <button>🛒<br>Cửa hàng</button>
-    <button>📋<br>Nhiệm vụ</button>
+ <button class="active" data-page="home">🏠<br>Trang chủ</button>
+ <button data-page="packs">🎁<br>Gói</button>
+ <button data-page="squad">👥<br>Đội hình</button>
+ <button data-page="match">⚽<br>Thi đấu</button>
+ <button data-page="account">👤<br>Tài khoản</button>
 </aside>
 
 <main>
 
-<section class="hero">
-    <div class="club">SERIE A · ITALY</div>
-    <h1>JUVENTUS</h1>
-    <p>FINO ALLA FINE!</p>
-    <h2>⚽ OVR 65</h2>
+<!-- TRANG CHỦ -->
+<section class="page active" id="home">
+ <div class="hero">
+  <div class="club">SERIE A · ITALY</div>
+  <h1>JUVENTUS</h1>
+  <p>FINO ALLA FINE!</p>
+  <h2>⚽ OVR <span id="team-ovr">0</span></h2>
+  <p>Chào mừng đến với GERMAIN FC.</p>
+ </div>
+
+ <div class="stat-row">
+  <div class="stat">🎁 Gói cầu thủ<strong id="pack-count">0</strong></div>
+  <div class="stat">👥 Cầu thủ<strong id="player-count">0</strong></div>
+  <div class="stat">🏆 Trận thắng<strong id="win-count">0</strong></div>
+ </div>
+
+ <h2 class="section-title">⚡ BẮT ĐẦU</h2>
+ <div class="panel">
+  <p>Nhận gói cầu thủ, xây dựng đội hình 11 người và thi đấu để kiếm thêm gói.</p>
+  <button class="btn" onclick="goPage('packs')">🎁 MỞ GÓI CẦU THỦ</button>
+  <button class="btn secondary" onclick="goPage('squad')">👥 ĐỘI HÌNH</button>
+ </div>
+
+ <h2 class="section-title">⭐ DANH SÁCH CẦU THỦ ĐÃ SỞ HỮU</h2>
+ <div class="grid" id="player-grid"></div>
 </section>
 
-<h2 class="section-title">⭐ DANH SÁCH CẦU THỦ</h2>
+<!-- GÓI CẦU THỦ -->
+<section class="page" id="packs">
+ <h2 class="section-title">🎁 KHO GÓI CẦU THỦ</h2>
+ <div class="panel">
+  <h3>Gói cầu thủ ngẫu nhiên</h3>
+  <p class="notice">Mỗi gói chứa một cầu thủ. 11 gói đầu tiên đảm bảo đủ 11 vị trí trong đội hình.</p>
+  <div class="stat">Số gói hiện có<strong id="pack-count-2">0</strong></div>
+ </div>
 
-<div id="player-grid"></div>
+ <div class="pack-grid" id="pack-grid"></div>
 
-<div class="bottom-menu">
-    <button>👥 Đội hình</button>
-    <button>⚙️ Chiến thuật</button>
-    <button>🔄 Thị trường</button>
-    <button>🏆 Thành tựu</button>
-    <button class="play">▶ CHƠI NGAY</button>
-</div>
+ <div id="reveal-card" aria-live="polite">
+  <p>🎉 CẦU THỦ MỚI!</p>
+  <strong id="reveal-name"></strong>
+  <h2 id="reveal-ovr"></h2>
+  <p id="reveal-position"></p>
+  <button class="btn" onclick="closeReveal()">TIẾP TỤC</button>
+ </div>
+</section>
+
+<!-- ĐỘI HÌNH -->
+<section class="page" id="squad">
+ <h2 class="section-title">👥 ĐỘI HÌNH JUVENTUS</h2>
+ <div class="panel">
+  <p>Đội hình ban đầu trống. Mở gói cầu thủ rồi chọn tự động để xếp đội.</p>
+  <button class="btn" onclick="autoSelect()">⚡ TỰ ĐỘNG CHỌN</button>
+  <button class="btn secondary" onclick="clearSquad()">XÓA ĐỘI HÌNH</button>
+ </div>
+ <div class="position-grid" id="squad-grid"></div>
+ <h3 id="squad-message" class="match-label"></h3>
+</section>
+
+<!-- THI ĐẤU -->
+<section class="page" id="match">
+ <h2 class="section-title">⚽ THI ĐẤU</h2>
+ <div class="panel">
+  <div class="stat-row">
+   <div class="stat">Đội của bạn<strong id="match-ovr">0 OVR</strong></div>
+   <div class="stat">Phần thưởng<strong>🎁 2 PACK</strong></div>
+  </div>
+  <p class="notice">Cần xếp đủ 11 cầu thủ trước khi thi đấu.</p>
+ </div>
+
+ <div id="match-stage">
+  <div class="pitch-circle"></div>
+  <div class="goal"></div>
+  <div class="runner" id="runner">🏃</div>
+  <div class="ball" id="ball">⚽</div>
+ </div>
+ <div class="match-label" id="match-status">SẴN SÀNG RA SÂN</div>
+ <p id="match-log">Bấm chơi ngay để bắt đầu trận đấu.</p>
+ <button class="btn" id="play-button" onclick="playMatch()">▶ CHƠI NGAY</button>
+</section>
+
+<!-- TÀI KHOẢN -->
+<section class="page" id="account">
+ <h2 class="section-title">👤 TÀI KHOẢN</h2>
+ <div class="panel" id="account-panel"></div>
+</section>
 
 </main>
 </div>
 
-<!-- ACCOUNT MODAL -->
-
-<div class="modal" id="account-modal">
-    <div class="modal-box">
-
-        <h2>👤 TÀI KHOẢN GERMAIN FC</h2>
-
-        <div id="account-form">
-
-            <p style="text-align:center;color:#aaa;font-size:13px">
-                Tạo tài khoản để sao lưu dữ liệu game.
-            </p>
-
-            <input
-                id="account-username"
-                type="text"
-                placeholder="Tên tài khoản"
-                maxlength="25"
-            >
-
-            <input
-                id="account-email"
-                type="email"
-                placeholder="Địa chỉ email"
-            >
-
-            <input
-                id="account-password"
-                type="password"
-                placeholder="Mật khẩu (ít nhất 8 ký tự)"
-            >
-
-            <button class="create-btn" onclick="createAccount()">
-                TẠO TÀI KHOẢN & SAO LƯU
-            </button>
-
-        </div>
-
-        <div id="account-info" style="display:none">
-            <div class="account-status">
-                <p>✅ Tài khoản đã được tạo</p>
-                <p id="saved-username"></p>
-                <p id="saved-email"></p>
-                <p style="color:#00ed72;font-size:13px">
-                    💾 Dữ liệu đang được lưu trên thiết bị.
-                </p>
-            </div>
-
-            <button class="create-btn" onclick="backupGame()">
-                💾 SAO LƯU NGAY
-            </button>
-
-            <button class="close-btn" onclick="restoreGame()">
-                🔄 KHÔI PHỤC DỮ LIỆU
-            </button>
-        </div>
-
-        <p id="account-message"></p>
-
-        <button class="close-btn" onclick="closeAccount()">
-            ĐÓNG
-        </button>
-
-    </div>
+<!-- MÀN HÌNH TẠO TÀI KHOẢN -->
+<div class="modal" id="signup-modal">
+ <div class="modal-box">
+  <h2>GERMAIN FC</h2>
+  <p style="text-align:center">Tạo tài khoản để bắt đầu hành trình bóng đá!</p>
+  <input id="signup-name" placeholder="Tên người chơi" maxlength="25">
+  <input id="signup-email" type="email" placeholder="Email">
+  <input id="signup-password" type="password" placeholder="Mật khẩu (ít nhất 8 ký tự)">
+  <button class="btn" onclick="createAccount()">TẠO TÀI KHOẢN & NHẬN 11 GÓI</button>
+  <p id="message"></p>
+  <p class="notice">Tài khoản trong phiên bản này được lưu trên thiết bị hiện tại, chưa có đồng bộ máy chủ.</p>
+ </div>
 </div>
 
 <script>
+"use strict";
 
-// ẢNH TỔNG HỢP TRÊN GITHUB
+// ===================================
+// DỮ LIỆU GAME
+// ===================================
+
 const SPRITE =
 "https://raw.githubusercontent.com/hoanggiavinh001-blip/Te-t1/main/IMG_0680.png";
 
-// DỮ LIỆU GAME
-let gameData = {
-    coins: 200000,
-    gems: 100,
-    level: 1,
-    club: "JUVENTUS"
-};
+const STORAGE_KEY = "GERMAIN_FC_GAME_V2";
 
-// DANH SÁCH CẦU THỦ
 const players = [
 ["Ronaldo",107,"ST"],
 ["Messi",107,"ST"],
@@ -453,202 +250,647 @@ const players = [
 ["Vlahovic",100,"ST"]
 ];
 
-// VỊ TRÍ CÁC THẺ TRONG ẢNH
-const boxes = Array.from(
-{length:32},
-(_,i)=>({
-    x:0.010+(i%8)*0.123,
-    y:0.008+Math.floor(i/8)*0.192,
-    w:0.115,
-    h:0.180
-})
-);
+const positions = [
+ "GK","LB","CB","CB","RB",
+ "CDM","CM","CAM","LW","ST","RW"
+];
 
-// TẢI ẢNH
-const image = new Image();
-image.crossOrigin = "anonymous";
-
-image.onload = function() {
-
-    const grid = document.getElementById("player-grid");
-
-    players.forEach((player,i)=>{
-
-        const [name,ovr,pos] = player;
-        const box = boxes[i];
-
-        const canvas = document.createElement("canvas");
-
-        const sx = box.x * image.naturalWidth;
-        const sy = box.y * image.naturalHeight;
-        const sw = box.w * image.naturalWidth;
-        const sh = box.h * image.naturalHeight;
-
-        canvas.width = 300;
-        canvas.height = 400;
-
-        const ctx = canvas.getContext("2d");
-
-        ctx.drawImage(
-            image,
-            sx,sy,sw,sh,
-            0,0,300,400
-        );
-
-        const card = document.createElement("div");
-        card.className = "player-card";
-
-        const img = document.createElement("img");
-        img.src = canvas.toDataURL("image/png");
-
-        const info = document.createElement("div");
-        info.className = "player-info";
-
-        const playerName = document.createElement("strong");
-        playerName.textContent = name;
-
-        const playerStats = document.createElement("span");
-        playerStats.textContent = `OVR ${ovr} · ${pos}`;
-
-        info.appendChild(playerName);
-        info.appendChild(playerStats);
-
-        card.appendChild(img);
-        card.appendChild(info);
-
-        card.onclick = function() {
-            alert(
-                "Đã chọn " + name +
-                "\nOVR: " + ovr +
-                "\nVị trí: " + pos
-            );
-        };
-
-        grid.appendChild(card);
-
-    });
-
+const positionNames = {
+ GK:"Thủ môn",
+ LB:"Hậu vệ trái",
+ CB:"Trung vệ",
+ RB:"Hậu vệ phải",
+ CDM:"Tiền vệ phòng ngự",
+ CM:"Tiền vệ trung tâm",
+ CAM:"Tiền vệ tấn công",
+ LW:"Tiền đạo trái",
+ ST:"Tiền đạo",
+ RW:"Tiền đạo phải"
 };
 
-image.onerror = function() {
-    document.getElementById("player-grid").innerHTML =
-    "Không tải được ảnh cầu thủ!";
+let game = {
+ account:null,
+ coins:200000,
+ gems:100,
+ packs:0,
+ collection:[],
+ squad:[],
+ wins:0,
+ starterReceived:false
 };
 
-image.src = SPRITE;
+let currentReveal = null;
+let matchRunning = false;
 
+// ===================================
+// LƯU VÀ TẢI GAME
+// ===================================
 
-// ============================
-// HỆ THỐNG TÀI KHOẢN SAO LƯU
-// ============================
-
-const ACCOUNT_KEY = "GERMAIN_FC_ACCOUNT";
-const BACKUP_KEY = "GERMAIN_FC_BACKUP";
-
-function openAccount() {
-    document.getElementById("account-modal").style.display = "flex";
-    updateAccountUI();
+function saveGame(){
+ try{
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(game));
+ }catch(e){
+  console.error("Không thể lưu game",e);
+ }
 }
 
-function closeAccount() {
-    document.getElementById("account-modal").style.display = "none";
+function loadGame(){
+ try{
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if(saved){
+   const data = JSON.parse(saved);
+   game = {...game,...data};
+  }
+ }catch(e){
+  console.error("Dữ liệu lưu bị lỗi",e);
+ }
 }
 
-function showMessage(message) {
-    document.getElementById("account-message").textContent = message;
+function updateUI(){
+ document.getElementById("profile-name").textContent =
+  game.account ? game.account.name : "Guest";
+
+ document.getElementById("coin-count").textContent =
+  game.coins.toLocaleString("vi-VN");
+
+ document.getElementById("gem-count").textContent = game.gems;
+
+ document.getElementById("pack-count").textContent = game.packs;
+ document.getElementById("pack-count-2").textContent = game.packs;
+ document.getElementById("player-count").textContent = game.collection.length;
+ document.getElementById("win-count").textContent = game.wins;
+
+ const avg = game.squad.length
+  ? Math.round(game.squad.reduce((sum,p)=>sum+p.ovr,0)/game.squad.length)
+  : 0;
+
+ document.getElementById("team-ovr").textContent = avg;
+ document.getElementById("match-ovr").textContent = avg+" OVR";
+
+ renderPacks();
+ renderSquad();
+ renderCollection();
+ renderAccount();
 }
 
-// MÃ HÓA MẬT KHẨU BẰNG SHA-256
-async function hashPassword(password) {
-    if (!window.crypto || !crypto.subtle) {
-        throw new Error("Trình duyệt cần HTTPS hoặc localhost để tạo tài khoản an toàn hơn.");
-    }
-
-    const data = new TextEncoder().encode(password);
-    const hash = await crypto.subtle.digest("SHA-256", data);
-
-    return Array.from(new Uint8Array(hash))
-        .map(byte => byte.toString(16).padStart(2,"0"))
-        .join("");
-}
-
+// ===================================
 // TẠO TÀI KHOẢN
-async function createAccount() {
+// ===================================
 
-    const username =
-        document.getElementById("account-username").value.trim();
+async function createAccount(){
+ const name = document.getElementById("signup-name").value.trim();
+ const email = document.getElementById("signup-email").value.trim();
+ const password = document.getElementById("signup-password").value;
+ const message = document.getElementById("message");
 
-    const email =
-        document.getElementById("account-email").value.trim();
+ if(!name || !email || !password){
+  message.textContent = "Vui lòng nhập đầy đủ thông tin.";
+  return;
+ }
 
-    const password =
-        document.getElementById("account-password").value;
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+  message.textContent = "Email không hợp lệ.";
+  return;
+ }
 
-    if (!username || !email || !password) {
-        showMessage("Vui lòng nhập đầy đủ thông tin!");
-        return;
-    }
+ if(password.length < 8){
+  message.textContent = "Mật khẩu cần ít nhất 8 ký tự.";
+  return;
+ }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        showMessage("Email không hợp lệ!");
-        return;
-    }
+ if(!crypto.subtle){
+  message.textContent = "Hãy mở game bằng HTTPS hoặc localhost để tạo tài khoản.";
+  return;
+ }
 
-    if (password.length < 8) {
-        showMessage("Mật khẩu phải có ít nhất 8 ký tự!");
-        return;
-    }
+ try{
+  const bytes = new TextEncoder().encode(password);
+  const hash = await crypto.subtle.digest("SHA-256",bytes);
+  const passwordHash = Array.from(new Uint8Array(hash))
+   .map(b=>b.toString(16).padStart(2,"0")).join("");
 
-    if (localStorage.getItem(ACCOUNT_KEY)) {
-        showMessage("Thiết bị này đã có tài khoản!");
-        return;
-    }
+  game.account = {
+   name,
+   email,
+   passwordHash,
+   createdAt:new Date().toISOString()
+  };
 
-    try {
-        const passwordHash = await hashPassword(password);
+  // TẶNG 11 GÓI TÂN THỦ
+  if(!game.starterReceived){
+   game.packs += 11;
+   game.starterReceived = true;
+  }
 
-        const account = {
-            username: username,
-            email: email,
-            passwordHash: passwordHash,
-            createdAt: new Date().toISOString()
-        };
+  saveGame();
 
-        localStorage.setItem(
-            ACCOUNT_KEY,
-            JSON.stringify(account)
-        );
+  document.getElementById("signup-modal").style.display = "none";
+  updateUI();
+  goPage("packs");
 
-        backupGame();
+  alert("🎉 Chào mừng "+name+"! Bạn đã nhận được 11 gói cầu thủ.");
 
-        updateAccountUI();
-
-        showMessage("Tạo tài khoản và sao lưu thành công!");
-
-    } catch (error) {
-        showMessage(error.message);
-    }
+ }catch(error){
+  message.textContent = "Không thể tạo tài khoản. Hãy thử lại.";
+ }
 }
 
-// CẬP NHẬT GIAO DIỆN TÀI KHOẢN
-function updateAccountUI() {
+// ===================================
+// HỆ THỐNG GÓI CẦU THỦ
+// ===================================
 
-    const account = localStorage.getItem(ACCOUNT_KEY);
+// 11 gói đầu tiên bảo đảm mỗi vị trí có một cầu thủ.
+// Hai gói CB sẽ cho hai trung vệ khác nhau.
 
-    const form = document.getElementById("account-form");
-    const info = document.getElementById("account-info");
+function randomPlayerForPosition(position){
+ let candidates = players.filter(p=>p[2]===position);
 
-    if (account) {
+ if(!candidates.length){
+  candidates = players.filter(p=>p[2]==="CM");
+ }
 
-        const data = JSON.parse(account);
+ const available = candidates.filter(p=>
+  !game.collection.some(c=>c.name===p[0])
+ );
 
-        form.style.display = "none";
-        info.style.display = "block";
+ const pool = available.length ? available : candidates;
+ const chosen = pool[Math.floor(Math.random()*pool.length)];
 
-        document.getElementById("saved-username").textContent =
-            "Tên: " + data.username;
+ return {
+  id:Date.now()+"_"+Math.random().toString(16).slice(2),
+  name:chosen[0],
+  ovr:chosen[1],
+  pos:position
+ };
+}
 
-        document.getElementById("saved-email").textContent =
-            "Email: " + data.email;
+function renderPacks(){
+ const grid = document.getElementById("pack-grid");
+ grid.innerHTML = "";
 
-        document.getElementById("profile
+ if(game.packs <= 0){
+  grid.innerHTML = '<div class="panel">Bạn không còn gói cầu thủ. Hãy thi đấu để nhận thêm 2 gói!</div>';
+  return;
+ }
+
+ for(let i=0;i<game.packs;i++){
+  const pack = document.createElement("div");
+  pack.className = "pack";
+  pack.innerHTML = `
+   <div class="pack-icon">🎁</div>
+   <h3>Gói cầu thủ</h3>
+   <p>Gói số ${i+1}</p>
+   <button class="btn" data-open="${i}">MỞ GÓI</button>
+  `;
+  grid.appendChild(pack);
+ }
+
+ grid.querySelectorAll("[data-open]").forEach(button=>{
+  button.addEventListener("click",openPack);
+ });
+}
+
+function openPack(){
+ if(game.packs <= 0) return;
+
+ // Ưu tiên các vị trí còn thiếu trong bộ 11 gói đầu tiên.
+ let position;
+
+ if(game.collection.length < 11 && !game.starterReceived){
+  position = positions[game.collection.length];
+ }else if(game.collection.length < 11 &&
+          game.starterReceived &&
+          game.collection.filter(p=>positions.includes(p.pos)).length < 11){
+  const missing = positions.filter((pos,index)=>{
+   const same = game.collection.filter(p=>p.pos===pos).length;
+   const required = positions.slice(0,index+1).filter(x=>x===pos).length;
+   return same < required;
+  });
+  position = missing[0] || positions[Math.floor(Math.random()*positions.length)];
+ }else{
+  position = positions[Math.floor(Math.random()*positions.length)];
+ }
+
+ // Gói tân thủ: đảm bảo đủ 11 vị trí theo thứ tự.
+ if(game.starterReceived && game.collection.length < 11){
+  position = positions[game.collection.length];
+ }
+
+ const player = randomPlayerForPosition(position);
+
+ game.packs--;
+ game.collection.push(player);
+
+ currentReveal = player;
+
+ document.getElementById("reveal-name").textContent = player.name;
+ document.getElementById("reveal-ovr").textContent = "OVR "+player.ovr;
+ document.getElementById("reveal-position").textContent =
+  positionNames[player.pos]+" · "+player.pos;
+
+ document.getElementById("reveal-card").style.display = "block";
+
+ saveGame();
+ updateUI();
+
+ document.getElementById("reveal-card").scrollIntoView({
+  behavior:"smooth",
+  block:"center"
+ });
+}
+
+function closeReveal(){
+ document.getElementById("reveal-card").style.display = "none";
+}
+
+// ===================================
+// ĐỘI HÌNH
+// ===================================
+
+function renderSquad(){
+ const grid = document.getElementById("squad-grid");
+ grid.innerHTML = "";
+
+ positions.forEach((pos,index)=>{
+  const player = game.squad[index];
+
+  const slot = document.createElement("div");
+  slot.className = "slot"+(player?" filled":"");
+
+  slot.innerHTML = `
+   <b>${pos} · ${positionNames[pos]}</b>
+   ${player
+    ? `<strong>${player.name}</strong><br><small>OVR ${player.ovr}</small>`
+    : `<small>Chưa có cầu thủ</small>`
+   }
+  `;
+
+  grid.appendChild(slot);
+ });
+}
+
+function autoSelect(){
+ if(game.collection.length < 11){
+  document.getElementById("squad-message").textContent =
+   "Bạn cần mở ít nhất 11 gói để có đủ cầu thủ!";
+  return;
+ }
+
+ const selected = [];
+ const used = new Set();
+
+ // Chọn đúng cầu thủ cho từng vị trí, không dùng một người hai lần.
+ for(const pos of positions){
+  const player = game.collection.find(p=>
+   p.pos===pos && !used.has(p.id)
+  );
+
+  if(!player){
+   document.getElementById("squad-message").textContent =
+    "Chưa đủ cầu thủ ở vị trí "+pos+". Hãy mở thêm gói!";
+   return;
+  }
+
+  selected.push(player);
+  used.add(player.id);
+ }
+
+ game.squad = selected;
+ saveGame();
+ updateUI();
+
+ document.getElementById("squad-message").textContent =
+  "✅ Đã tự động xếp đủ 11 cầu thủ!";
+}
+
+function clearSquad(){
+ game.squad = [];
+ saveGame();
+ updateUI();
+ document.getElementById("squad-message").textContent =
+  "Đã xóa đội hình.";
+}
+
+// ===================================
+// DANH SÁCH CẦU THỦ VÀ ẢNH SPRITE
+// ===================================
+
+const boxes = Array.from({length:32},(_,i)=>({
+ x:0.010+(i%8)*0.123,
+ y:0.008+Math.floor(i/8)*0.192,
+ w:0.115,
+ h:0.180
+}));
+
+const spriteImage = new Image();
+spriteImage.crossOrigin = "anonymous";
+
+spriteImage.onload = ()=>{
+ renderCollection();
+};
+
+spriteImage.onerror = ()=>{
+ console.warn("Không tải được ảnh sprite.");
+};
+
+spriteImage.src = SPRITE;
+
+function makePlayerImage(player){
+ const index = players.findIndex(p=>p[0]===player.name);
+ const canvas = document.createElement("canvas");
+ canvas.width = 300;
+ canvas.height = 400;
+
+ const ctx = canvas.getContext("2d");
+
+ if(spriteImage.complete && spriteImage.naturalWidth && index>=0){
+  const box = boxes[index];
+
+  ctx.drawImage(
+   spriteImage,
+   box.x*spriteImage.naturalWidth,
+   box.y*spriteImage.naturalHeight,
+   box.w*spriteImage.naturalWidth,
+   box.h*spriteImage.naturalHeight,
+   0,0,300,400
+  );
+ }else{
+  ctx.fillStyle = "#263c4a";
+  ctx.fillRect(0,0,300,400);
+  ctx.fillStyle = "#00ed72";
+  ctx.font = "bold 65px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText(player.ovr,150,100);
+  ctx.fillStyle = "white";
+  ctx.font = "bold 30px Arial";
+  ctx.fillText(player.name,150,210,270);
+  ctx.font = "24px Arial";
+  ctx.fillText(player.pos,150,270);
+ }
+ return canvas.toDataURL("image/png");
+}
+
+function renderCollection(){
+ const grid = document.getElementById("player-grid");
+ if(!grid) return;
+
+ grid.innerHTML = "";
+
+ game.collection.forEach(player=>{
+  const card = document.createElement("div");
+  card.className = "player-card";
+
+  const img = document.createElement("img");
+  img.src = makePlayerImage(player);
+  img.alt = player.name;
+
+  const info = document.createElement("div");
+  info.className = "player-info";
+
+  const name = document.createElement("strong");
+  name.textContent = player.name;
+
+  const stats = document.createElement("span");
+  stats.textContent = "OVR "+player.ovr+" · "+player.pos;
+
+  info.append(name,stats);
+  card.append(img,info);
+  grid.appendChild(card);
+ });
+}
+
+// ===================================
+// TRẬN ĐẤU
+// ===================================
+
+function animateElement(element,keyframes,duration){
+ return element.animate(keyframes,{
+  duration,
+  easing:"ease-in-out",
+  fill:"forwards"
+ }).finished;
+}
+
+async function playMatch(){
+ if(matchRunning) return;
+
+ if(game.squad.length !== 11){
+  alert("Bạn phải xếp đủ 11 cầu thủ trước khi thi đấu!");
+  goPage("squad");
+  return;
+ }
+
+ matchRunning = true;
+
+ const button = document.getElementById("play-button");
+ const runner = document.getElementById("runner");
+ const ball = document.getElementById("ball");
+ const status = document.getElementById("match-status");
+ const log = document.getElementById("match-log");
+
+ button.disabled = true;
+ button.textContent = "ĐANG THI ĐẤU...";
+
+ // Đặt lại vị trí trước trận.
+ runner.style.left = "10%";
+ runner.style.top = "65%";
+ ball.style.left = "15%";
+ ball.style.top = "70%";
+
+ const moves = [
+  ["10%","65%","15%","70%","⚽ BẮT ĐẦU TRẬN ĐẤU!"],
+  ["30%","55%","33%","61%","🏃 CẦU THỦ ĐANG DẪN BÓNG!"],
+  ["48%","35%","51%","40%","🔥 TĂNG TỐC TẤN CÔNG!"],
+  ["70%","45%","73%","50%","⚡ TIẾN VÀO VÒNG CẤM!"],
+  ["82%","38%","85%","43%","🎯 CHUẨN BỊ SÚT!"]
+ ];
+
+ try{
+  for(let i=0;i<moves.length;i++){
+   const m = moves[i];
+
+   status.textContent = m[4];
+   log.textContent = "GERMAIN FC đang tổ chức tấn công...";
+
+   await Promise.all([
+    animateElement(runner,[
+     {left:runner.style.left,top:runner.style.top},
+     {left:m[0],top:m[1]}
+    ],850),
+    animateElement(ball,[
+     {left:ball.style.left,top:ball.style.top},
+     {left:m[2],top:m[3]}
+    ],850)
+   ]);
+
+   runner.style.left = m[0];
+   runner.style.top = m[1];
+   ball.style.left = m[2];
+   ball.style.top = m[3];
+  }
+
+  status.textContent = "🥅 SÚT!!!";
+  log.textContent = "Cầu thủ tung cú sút về phía khung thành!";
+
+  await animateElement(ball,[
+   {left:"85%",top:"43%",transform:"scale(1)"},
+   {left:"97%",top:"48%",transform:"scale(1.5)"},
+   {left:"100%",top:"50%",transform:"scale(.7)"}
+  ],1000);
+
+  const goal = Math.random() < 0.75;
+
+  if(goal){
+   status.textContent = "⚽ GOOOOAL!!!";
+   log.textContent = "GERMAIN FC GHI BÀN! Bạn nhận được 2 gói cầu thủ.";
+  }else{
+   status.textContent = "🥅 THỦ MÔN CẢN PHÁ!";
+   log.textContent = "Cú sút bị cản phá! Bạn vẫn nhận 2 gói hoàn thành trận.";
+  }
+
+  // MỖI TRẬN HOÀN THÀNH NHẬN 2 GÓI.
+  game.packs += 2;
+  game.wins++;
+  game.coins += 1000;
+
+  saveGame();
+  updateUI();
+
+ }catch(error){
+  console.error(error);
+ }finally{
+  matchRunning = false;
+  button.disabled = false;
+  button.textContent = "▶ CHƠI TRẬN TIẾP THEO";
+ }
+}
+
+// ===================================
+// TÀI KHOẢN
+// ===================================
+
+function renderAccount(){
+ const panel = document.getElementById("account-panel");
+
+ if(!game.account){
+  panel.innerHTML = `
+   <p>Bạn chưa tạo tài khoản.</p>
+   <button class="btn" onclick="showSignup()">TẠO TÀI KHOẢN</button>
+  `;
+  return;
+ }
+
+ panel.innerHTML = `
+  <h3>✅ TÀI KHOẢN ĐÃ TẠO</h3>
+  <p>👤 ${escapeHTML(game.account.name)}</p>
+  <p>📧 ${escapeHTML(game.account.email)}</p>
+  <p class="notice">Dữ liệu game được lưu tự động trên thiết bị này.</p>
+  <button class="btn" onclick="saveGame()">💾 LƯU GAME NGAY</button>
+  <button class="btn secondary" onclick="exportBackup()">📥 XUẤT BẢN SAO LƯU</button>
+  <button class="btn secondary" onclick="document.getElementById('restore-file').click()">📤 NHẬP BẢN SAO LƯU</button>
+  <input id="restore-file" type="file" accept=".json,application/json" style="display:none">
+ `;
+ const input = document.getElementById("restore-file");
+ input.addEventListener("change",importBackup);
+}
+
+function escapeHTML(text){
+ return String(text).replace(/[&<>"']/g,char=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[char]));
+}
+
+function showSignup(){
+ document.getElementById("signup-modal").style.display = "flex";
+}
+
+function exportBackup(){
+ const blob = new Blob([JSON.stringify(game,null,2)],{
+  type:"application/json"
+ });
+
+ const url = URL.createObjectURL(blob);
+ const a = document.createElement("a");
+ a.href = url;
+ a.download = "GERMAIN-FC-BACKUP.json";
+ a.click();
+ URL.revokeObjectURL(url);
+}
+
+function importBackup(event){
+ const file = event.target.files[0];
+ if(!file) return;
+
+ const reader = new FileReader();
+
+ reader.onload = ()=>{
+  try{
+   const data = JSON.parse(reader.result);
+
+   if(!data.account || !Array.isArray(data.collection) ||
+      !Array.isArray(data.squad) || !Number.isFinite(data.packs)){
+    throw new Error("Invalid backup");
+   }
+
+   if(!confirm("Nhập bản sao lưu sẽ thay thế dữ liệu game hiện tại. Tiếp tục?")){
+    return;
+   }
+
+   game = {...game,...data};
+   saveGame();
+   updateUI();
+   alert("Khôi phục bản sao lưu thành công!");
+
+  }catch(error){
+   alert("File sao lưu không hợp lệ!");
+  }
+ };
+
+ reader.readAsText(file);
+}
+
+// ===================================
+// CHUYỂN TRANG
+// ===================================
+
+function goPage(id){
+ document.querySelectorAll(".page").forEach(page=>{
+  page.classList.remove("active");
+ });
+
+ const target = document.getElementById(id);
+ if(target) target.classList.add("active");
+
+ document.querySelectorAll(".sidebar button").forEach(button=>{
+  button.classList.toggle("active",button.dataset.page===id);
+ });
+}
+
+document.querySelectorAll(".sidebar button").forEach(button=>{
+ button.addEventListener("click",()=>{
+  const page = button.dataset.page;
+
+  if(page==="account" && !game.account){
+   showSignup();
+   return;
+  }
+
+  goPage(page);
+ });
+});
+
+// ===================================
+// KHỞI ĐỘNG
+// ===================================
+
+loadGame();
+updateUI();
+
+if(!game.account){
+ showSignup();
+}
+</script>
+
+</body>
+</html>
+```

@@ -27,6 +27,7 @@ main{flex:1;padding:18px;min-width:0}
 .section-title{margin:22px 0 14px}
 .btn{padding:12px 17px;background:#00ed72;color:#06140c;border:0;border-radius:8px}
 .btn.secondary{background:#263747;color:white}
+.btn.danger{background:#a52b36;color:white}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .player-card{background:#151e29;padding:8px;border:1px solid #394653;border-radius:10px;text-align:center}
@@ -47,11 +48,12 @@ main{flex:1;padding:18px;min-width:0}
 .slot b{display:block;color:#00ed72;margin-bottom:7px}
 .slot small{color:#aaa}
 .slot img{width:100%;max-width:125px;aspect-ratio:3/4;object-fit:cover;border-radius:7px;display:block;margin:7px auto}
-.reveal-image{width:180px;max-width:70%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;border:2px solid gold;display:block;margin:8px auto}
-.shop-pack{background:linear-gradient(145deg,#452b54,#111d2a);border:1px solid #ff4dca;border-radius:10px;padding:15px;text-align:center}
-.shop-pack .pack-icon{font-size:38px}
-.shop-pack button{width:100%;margin-top:10px}
-.ruby-price{color:#ff4dca;font-weight:bold;font-size:18px}
+.bench-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.bench-card{background:#172534;border:1px solid #526577;border-radius:10px;padding:9px;text-align:center}
+.bench-card img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:7px}
+.bench-card strong{display:block;margin:7px 0}
+.bench-card small{color:#00ed72;display:block;margin-bottom:8px}
+.bench-card button{width:100%;font-size:12px;padding:10px 5px}
 .notice{color:#b7c6d0;font-size:13px;line-height:1.5}
 #match-stage{background:#173d2a;border:3px solid #d8e7d9;border-radius:12px;position:relative;overflow:hidden;height:330px;margin:15px 0;background-image:linear-gradient(90deg,transparent 49.7%,#ffffff66 49.7%,#ffffff66 50.3%,transparent 50.3%),linear-gradient(#ffffff22 1px,transparent 1px);background-size:100% 100%,100% 50%}
 .pitch-circle{position:absolute;width:115px;height:115px;border:2px solid #ffffff66;border-radius:50%;left:calc(50% - 57px);top:calc(50% - 57px)}
@@ -61,20 +63,22 @@ main{flex:1;padding:18px;min-width:0}
 .match-label{text-align:center;color:#00ed72;font-weight:bold}
 #match-log{min-height:25px;text-align:center;color:#ddd}
 .modal{display:none;position:fixed;inset:0;background:#000d;z-index:1000;align-items:center;justify-content:center;padding:15px}
-.modal-box{width:100%;max-width:420px;background:#101b29;border:1px solid #00ed72;border-radius:15px;padding:22px}
+.modal-box{width:100%;max-width:420px;background:#101b29;border:1px solid #00ed72;border-radius:15px;padding:22px;max-height:90vh;overflow:auto}
 .modal-box h2{text-align:center;color:#00ed72}
-.modal-box input{width:100%;padding:14px;margin:7px 0;background:#080d14;border:1px solid #394653;border-radius:7px;color:white;font-size:16px}
+.modal-box input,.modal-box select{width:100%;padding:14px;margin:7px 0;background:#080d14;border:1px solid #394653;border-radius:7px;color:white;font-size:16px}
 .modal-box button{width:100%;margin-top:10px}
 #message{color:#00ed72;text-align:center;font-size:13px;min-height:20px}
+.reveal-image{width:180px;max-width:70%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;border:2px solid gold;display:block;margin:8px auto}
 #reveal-card{display:none;text-align:center;background:#182c37;border:1px solid gold;border-radius:12px;padding:18px;margin-top:15px}
 #reveal-card strong{font-size:24px;color:gold}
+#shop-reveal-card{display:none;text-align:center}
 @media(max-width:650px){
  header{padding:10px}
  .logo{font-size:20px}
  .sidebar{width:72px;padding:5px}
  .sidebar button{font-size:10px;padding:13px 2px}
  main{padding:10px}
- .grid,.pack-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .grid,.pack-grid,.bench-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
  .position-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
  .hero h1{font-size:30px}
 }
@@ -154,22 +158,22 @@ main{flex:1;padding:18px;min-width:0}
   <p class="notice">Dùng Ruby kiếm được từ trận đấu để mua gói cầu thủ đặc biệt.</p>
  </div>
  <div class="pack-grid">
-  <div class="shop-pack">
+  <div class="pack" style="border-color:#ff4dca">
    <div class="pack-icon">💎</div>
    <h3>GÓI CẦU THỦ 107 OVR</h3>
-   <p>Nhận ngẫu nhiên một cầu thủ từ 107 OVR trở lên.</p>
-   <div class="ruby-price">♦ 5.000 RUBY</div>
+   <p>Nhận ngẫu nhiên cầu thủ 107 OVR trở lên.</p>
+   <div class="rubies">♦ 5.000 RUBY</div>
    <button class="btn" onclick="buyShopPack(107,5000)">MUA GÓI</button>
   </div>
-  <div class="shop-pack">
+  <div class="pack" style="border-color:#ff4dca">
    <div class="pack-icon">🌟</div>
    <h3>GÓI CẦU THỦ 105 OVR</h3>
-   <p>Nhận ngẫu nhiên một cầu thủ từ 105 OVR trở lên.</p>
-   <div class="ruby-price">♦ 2.000 RUBY</div>
+   <p>Nhận ngẫu nhiên cầu thủ 105 OVR trở lên.</p>
+   <div class="rubies">♦ 2.000 RUBY</div>
    <button class="btn" onclick="buyShopPack(105,2000)">MUA GÓI</button>
   </div>
  </div>
- <div id="shop-reveal-card" class="panel" style="display:none;text-align:center">
+ <div id="shop-reveal-card" class="panel">
   <h3>🎉 MỞ GÓI SHOP THÀNH CÔNG!</h3>
   <img id="shop-reveal-image" class="reveal-image" alt="Cầu thủ từ shop">
   <strong id="shop-reveal-name"></strong>
@@ -183,9 +187,23 @@ main{flex:1;padding:18px;min-width:0}
   <p>Đội hình ban đầu trống. Mở gói cầu thủ rồi chọn tự động để xếp đội.</p>
   <button class="btn" onclick="autoSelect()">⚡ TỰ ĐỘNG CHỌN</button>
   <button class="btn secondary" onclick="clearSquad()">XÓA ĐỘI HÌNH</button>
+  <div class="stat" style="margin-top:12px">OVR đội hình<strong id="squad-ovr">0</strong></div>
  </div>
+
+ <h3>⚽ ĐỘI HÌNH CHÍNH</h3>
  <div class="position-grid" id="squad-grid"></div>
  <h3 id="squad-message" class="match-label"></h3>
+
+ <div class="panel" style="margin-top:25px">
+  <h3>🪑 KHU VỰC DỰ BỊ</h3>
+  <p class="notice">Các cầu thủ đã mở nhưng chưa được xếp vào đội hình chính sẽ xuất hiện ở đây. Bấm vào cầu thủ để thay người.</p>
+  <div class="stat-row">
+   <div class="stat">Cầu thủ dự bị<strong id="bench-count">0</strong></div>
+   <div class="stat">Đội hình chính<strong id="starter-count">0/11</strong></div>
+  </div>
+ </div>
+ <div class="bench-grid" id="bench-grid"></div>
+ <p id="bench-empty" class="notice" style="text-align:center"></p>
 </section>
 
 <section class="page" id="match">
@@ -214,6 +232,19 @@ main{flex:1;padding:18px;min-width:0}
  <div class="panel" id="account-panel"></div>
 </section>
 </main>
+</div>
+
+<!-- HỘP CHỌN VỊ TRÍ THAY NGƯỜI -->
+<div class="modal" id="sub-modal">
+ <div class="modal-box">
+  <h2>🔄 THAY CẦU THỦ</h2>
+  <div id="sub-player-preview"></div>
+  <label for="sub-position">Chọn vị trí muốn thay:</label>
+  <select id="sub-position"></select>
+  <p class="notice">Cầu thủ đang đá ở vị trí được chọn sẽ chuyển xuống khu vực dự bị.</p>
+  <button class="btn" onclick="confirmSubstitution()">XÁC NHẬN THAY NGƯỜI</button>
+  <button class="btn secondary" onclick="closeSubModal()">HỦY</button>
+ </div>
 </div>
 
 <div class="modal" id="signup-modal">
@@ -265,12 +296,12 @@ let game={
 
 let currentReveal=null;
 let currentShopReveal=null;
+let selectedReserveId=null;
 let matchRunning=false;
 
 function saveGame(){
- try{
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(game));
- }catch(e){console.error("Không thể lưu game",e);}
+ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(game));}
+ catch(e){console.error("Không thể lưu game",e);}
 }
 
 function loadGame(){
@@ -280,8 +311,16 @@ function loadGame(){
    const data=JSON.parse(saved);
    game={...game,...data};
    if(!Number.isFinite(game.rubies))game.rubies=0;
+   if(!Array.isArray(game.squad))game.squad=[];
+   if(!Array.isArray(game.collection))game.collection=[];
   }
  }catch(e){console.error("Dữ liệu lưu bị lỗi",e);}
+}
+
+function getTeamOVR(){
+ return game.squad.length
+  ?Math.round(game.squad.reduce((sum,p)=>sum+p.ovr,0)/game.squad.length)
+  :0;
 }
 
 function updateUI(){
@@ -289,6 +328,7 @@ function updateUI(){
  document.getElementById("coin-count").textContent=game.coins.toLocaleString("vi-VN");
  document.getElementById("gem-count").textContent=game.gems;
  document.getElementById("ruby-count").textContent=(game.rubies||0).toLocaleString("vi-VN");
+
  const shopRuby=document.getElementById("shop-ruby-count");
  if(shopRuby)shopRuby.textContent=(game.rubies||0).toLocaleString("vi-VN");
 
@@ -297,13 +337,14 @@ function updateUI(){
  document.getElementById("player-count").textContent=game.collection.length;
  document.getElementById("win-count").textContent=game.wins;
 
- const avg=game.squad.length
-  ?Math.round(game.squad.reduce((sum,p)=>sum+p.ovr,0)/game.squad.length):0;
+ const avg=getTeamOVR();
  document.getElementById("team-ovr").textContent=avg;
  document.getElementById("match-ovr").textContent=avg+" OVR";
+ document.getElementById("squad-ovr").textContent=avg;
 
  renderPacks();
  renderSquad();
+ renderBench();
  renderCollection();
  renderAccount();
 }
@@ -390,22 +431,10 @@ function openPack(){
  if(game.packs<=0)return;
  let position;
 
- if(game.collection.length<11&&!game.starterReceived){
-  position=positions[game.collection.length];
- }else if(game.collection.length<11&&game.starterReceived&&
-          game.collection.filter(p=>positions.includes(p.pos)).length<11){
-  const missing=positions.filter((pos,index)=>{
-   const same=game.collection.filter(p=>p.pos===pos).length;
-   const required=positions.slice(0,index+1).filter(x=>x===pos).length;
-   return same<required;
-  });
-  position=missing[0]||positions[Math.floor(Math.random()*positions.length)];
- }else{
-  position=positions[Math.floor(Math.random()*positions.length)];
- }
-
  if(game.starterReceived&&game.collection.length<11){
   position=positions[game.collection.length];
+ }else{
+  position=positions[Math.floor(Math.random()*positions.length)];
  }
 
  const player=randomPlayerForPosition(position);
@@ -461,6 +490,7 @@ function buyShopPack(minOvr,cost){
 function renderSquad(){
  const grid=document.getElementById("squad-grid");
  grid.innerHTML="";
+
  positions.forEach((pos,index)=>{
   const player=game.squad[index];
   const slot=document.createElement("div");
@@ -472,6 +502,133 @@ function renderSquad(){
     :`<small>Chưa có cầu thủ</small>`}`;
   grid.appendChild(slot);
  });
+ document.getElementById("starter-count").textContent=game.squad.length+"/11";
+}
+
+function getBenchPlayers(){
+ const startingIds=new Set(game.squad.map(p=>p.id));
+ return game.collection.filter(p=>!startingIds.has(p.id));
+}
+
+function renderBench(){
+ const grid=document.getElementById("bench-grid");
+ const empty=document.getElementById("bench-empty");
+ const bench=getBenchPlayers();
+
+ document.getElementById("bench-count").textContent=bench.length;
+ grid.innerHTML="";
+
+ if(bench.length===0){
+  empty.textContent="Chưa có cầu thủ dự bị. Mở thêm pack để nhận cầu thủ!";
+  return;
+ }
+ empty.textContent="";
+
+ bench.forEach(player=>{
+  const card=document.createElement("div");
+  card.className="bench-card";
+
+  const img=document.createElement("img");
+  img.src=makePlayerImage(player);
+  img.alt=player.name;
+
+  const name=document.createElement("strong");
+  name.textContent=player.name;
+
+  const info=document.createElement("small");
+  info.textContent="OVR "+player.ovr+" · "+player.pos;
+
+  const button=document.createElement("button");
+  button.className="btn";
+  button.textContent="🔄 THAY NGƯỜI";
+  button.addEventListener("click",()=>openSubModal(player.id));
+
+  card.append(img,name,info,button);
+  grid.appendChild(card);
+ });
+}
+
+function openSubModal(playerId){
+ const player=getBenchPlayers().find(p=>p.id===playerId);
+ if(!player)return;
+
+ selectedReserveId=playerId;
+
+ const preview=document.getElementById("sub-player-preview");
+ preview.innerHTML=`
+  <img class="reveal-image" src="${makePlayerImage(player)}" alt="${escapeHTML(player.name)}">
+  <h3 style="text-align:center">${escapeHTML(player.name)}</h3>
+  <p style="text-align:center;color:#00ed72">OVR ${player.ovr} · ${player.pos}</p>`;
+
+ const select=document.getElementById("sub-position");
+ select.innerHTML="";
+
+ game.squad.forEach((current,index)=>{
+  const option=document.createElement("option");
+  option.value=String(index);
+  option.textContent=
+   (index+1)+". "+positions[index]+" · "+
+   (current?current.name:"Chưa có cầu thủ")+
+   (current?" (OVR "+current.ovr+")":"");
+  select.appendChild(option);
+ });
+
+ if(game.squad.length===0){
+  alert("Đội hình đang trống. Hãy tự động chọn cầu thủ trước.");
+  return;
+ }
+
+ document.getElementById("sub-modal").style.display="flex";
+}
+
+function closeSubModal(){
+ document.getElementById("sub-modal").style.display="none";
+ selectedReserveId=null;
+}
+
+function confirmSubstitution(){
+ if(!selectedReserveId)return;
+
+ const reserveIndex=game.collection.findIndex(p=>p.id===selectedReserveId);
+ if(reserveIndex<0){
+  alert("Không tìm thấy cầu thủ dự bị.");
+  closeSubModal();return;
+ }
+
+ const slotIndex=Number(document.getElementById("sub-position").value);
+ if(!Number.isInteger(slotIndex)||slotIndex<0||slotIndex>=game.squad.length){
+  alert("Vị trí thay người không hợp lệ.");return;
+ }
+
+ const reserve=game.collection[reserveIndex];
+ const oldPlayer=game.squad[slotIndex];
+
+ if(!reserve||!oldPlayer)return;
+
+ // Đưa cầu thủ dự bị vào vị trí đã chọn.
+ // Cầu thủ cũ tự động trở thành cầu thủ dự bị.
+ game.squad[slotIndex]=reserve;
+
+ saveGame();
+ updateUI();
+ closeSubModal();
+
+ const newOVR=getTeamOVR();
+ const difference=reserve.ovr-oldPlayer.ovr;
+ const message=document.getElementById("squad-message");
+
+ if(difference>0){
+  message.textContent=
+   "🚀 Thay "+oldPlayer.name+" bằng "+reserve.name+
+   "! OVR cầu thủ tăng "+difference+" điểm. OVR đội hình: "+newOVR;
+ }else if(difference<0){
+  message.textContent=
+   "Đã thay "+oldPlayer.name+" bằng "+reserve.name+
+   ". OVR đội hình hiện tại: "+newOVR;
+ }else{
+  message.textContent=
+   "Đã thay người thành công! OVR đội hình: "+newOVR;
+ }
 }
 
 function autoSelect(){
@@ -483,6 +640,7 @@ function autoSelect(){
 
  const selected=[];
  const used=new Set();
+
  for(const pos of positions){
   const player=game.collection.find(p=>p.pos===pos&&!used.has(p.id));
   if(!player){
@@ -521,6 +679,8 @@ spriteImage.crossOrigin="anonymous";
 spriteImage.onload=()=>{
  renderCollection();
  renderSquad();
+ renderBench();
+
  if(currentReveal){
   document.getElementById("reveal-image").src=makePlayerImage(currentReveal);
  }
@@ -528,13 +688,15 @@ spriteImage.onload=()=>{
   document.getElementById("shop-reveal-image").src=makePlayerImage(currentShopReveal);
  }
 };
+
 spriteImage.onerror=()=>console.warn("Không tải được ảnh sprite.");
 spriteImage.src=SPRITE;
 
 function makePlayerImage(player){
  const index=players.findIndex(p=>p[0]===player.name);
  const canvas=document.createElement("canvas");
- canvas.width=300;canvas.height=400;
+ canvas.width=300;
+ canvas.height=400;
  const ctx=canvas.getContext("2d");
 
  if(spriteImage.complete&&spriteImage.naturalWidth&&index>=0){
@@ -546,12 +708,17 @@ function makePlayerImage(player){
    box.h*spriteImage.naturalHeight,
    0,0,300,400);
  }else{
-  ctx.fillStyle="#263c4a";ctx.fillRect(0,0,300,400);
-  ctx.fillStyle="#00ed72";ctx.font="bold 65px Arial";ctx.textAlign="center";
+  ctx.fillStyle="#263c4a";
+  ctx.fillRect(0,0,300,400);
+  ctx.fillStyle="#00ed72";
+  ctx.font="bold 65px Arial";
+  ctx.textAlign="center";
   ctx.fillText(player.ovr,150,100);
-  ctx.fillStyle="white";ctx.font="bold 30px Arial";
+  ctx.fillStyle="white";
+  ctx.font="bold 30px Arial";
   ctx.fillText(player.name,150,210,270);
-  ctx.font="24px Arial";ctx.fillText(player.pos,150,270);
+  ctx.font="24px Arial";
+  ctx.fillText(player.pos,150,270);
  }
  return canvas.toDataURL("image/png");
 }
@@ -560,18 +727,24 @@ function renderCollection(){
  const grid=document.getElementById("player-grid");
  if(!grid)return;
  grid.innerHTML="";
+
  game.collection.forEach(player=>{
   const card=document.createElement("div");
   card.className="player-card";
+
   const img=document.createElement("img");
   img.src=makePlayerImage(player);
   img.alt=player.name;
+
   const info=document.createElement("div");
   info.className="player-info";
+
   const name=document.createElement("strong");
   name.textContent=player.name;
+
   const stats=document.createElement("span");
   stats.textContent="OVR "+player.ovr+" · "+player.pos;
+
   info.append(name,stats);
   card.append(img,info);
   grid.appendChild(card);
@@ -586,6 +759,7 @@ function animateElement(element,keyframes,duration){
 
 async function playMatch(){
  if(matchRunning)return;
+
  if(game.squad.length!==11){
   alert("Bạn phải xếp đủ 11 cầu thủ trước khi thi đấu!");
   goPage("squad");
@@ -602,12 +776,15 @@ async function playMatch(){
 
  button.disabled=true;
  button.textContent="ĐANG THI ĐẤU...";
+
  let goals=0;
  let conceded=0;
  scoreLabel.textContent="0 - 0";
 
- runner.style.left="10%";runner.style.top="65%";
- ball.style.left="15%";ball.style.top="70%";
+ runner.style.left="10%";
+ runner.style.top="65%";
+ ball.style.left="15%";
+ ball.style.top="70%";
 
  const attacks=[
   [["10%","65%","15%","70%"],["30%","55%","33%","61%"],["48%","35%","51%","40%"],["70%","45%","73%","50%"],["82%","38%","85%","43%"]],
@@ -618,13 +795,16 @@ async function playMatch(){
  try{
   for(let shot=0;shot<3;shot++){
    const moves=attacks[shot];
-   runner.style.left=moves[0][0];runner.style.top=moves[0][1];
-   ball.style.left=moves[0][2];ball.style.top=moves[0][3];
+   runner.style.left=moves[0][0];
+   runner.style.top=moves[0][1];
+   ball.style.left=moves[0][2];
+   ball.style.top=moves[0][3];
 
    for(let i=0;i<moves.length;i++){
     const m=moves[i];
     status.textContent="⚽ TẤN CÔNG "+(shot+1)+"/3";
     log.textContent="GERMAIN FC đang phối hợp và dẫn bóng...";
+
     await Promise.all([
      animateElement(runner,[
       {left:runner.style.left,top:runner.style.top},
@@ -635,12 +815,16 @@ async function playMatch(){
       {left:m[2],top:m[3]}
      ],500)
     ]);
-    runner.style.left=m[0];runner.style.top=m[1];
-    ball.style.left=m[2];ball.style.top=m[3];
+
+    runner.style.left=m[0];
+    runner.style.top=m[1];
+    ball.style.left=m[2];
+    ball.style.top=m[3];
    }
 
    status.textContent="🎯 CẦU THỦ SÚT BÓNG!";
    log.textContent="Cú sút thứ "+(shot+1)+" đang hướng về khung thành!";
+
    await animateElement(ball,[
     {left:"86%",top:"43%",transform:"scale(1)"},
     {left:"97%",top:"48%",transform:"scale(1.5)"},
@@ -655,6 +839,7 @@ async function playMatch(){
     status.textContent="🥅 THỦ MÔN CẢN PHÁ!";
     log.textContent="Cú sút bị cản phá.";
    }
+
    scoreLabel.textContent=goals+" - "+conceded;
    await new Promise(resolve=>setTimeout(resolve,500));
   }
@@ -662,6 +847,7 @@ async function playMatch(){
   status.textContent="🛡️ PHÒNG NGỰ!";
   log.textContent="Đội hình GERMAIN FC đang chống phản công...";
   await new Promise(resolve=>setTimeout(resolve,700));
+
   if(Math.random()<0.22)conceded=1;
   scoreLabel.textContent=goals+" - "+conceded;
 
@@ -675,7 +861,8 @@ async function playMatch(){
    log.textContent="Kết quả "+goals+" - 0! Bạn nhận 1.000 Ruby, 2 pack và 1.000 coin!";
   }else{
    status.textContent=goals>conceded?"🏆 CHIẾN THẮNG!":"⚽ KẾT THÚC TRẬN!";
-   log.textContent="Kết quả "+goals+" - "+conceded+". Bạn nhận 2 pack và 1.000 coin. Muốn nhận Ruby, hãy ghi ít nhất 2 bàn và không thủng lưới!";
+   log.textContent="Kết quả "+goals+" - "+conceded+
+    ". Bạn nhận 2 pack và 1.000 coin. Muốn nhận Ruby, hãy ghi ít nhất 2 bàn và không thủng lưới!";
   }
 
   saveGame();
@@ -692,6 +879,7 @@ async function playMatch(){
 
 function renderAccount(){
  const panel=document.getElementById("account-panel");
+
  if(!game.account){
   panel.innerHTML=`
    <p>Bạn chưa tạo tài khoản.</p>
@@ -708,6 +896,7 @@ function renderAccount(){
   <button class="btn secondary" onclick="exportBackup()">📥 XUẤT BẢN SAO LƯU</button>
   <button class="btn secondary" onclick="document.getElementById('restore-file').click()">📤 NHẬP BẢN SAO LƯU</button>
   <input id="restore-file" type="file" accept=".json,application/json" style="display:none">`;
+
  const input=document.getElementById("restore-file");
  input.addEventListener("change",importBackup);
 }
@@ -735,16 +924,19 @@ function exportBackup(){
 function importBackup(event){
  const file=event.target.files[0];
  if(!file)return;
- const reader=new FileReader();
 
+ const reader=new FileReader();
  reader.onload=()=>{
   try{
    const data=JSON.parse(reader.result);
+
    if(!data.account||!Array.isArray(data.collection)||
       !Array.isArray(data.squad)||!Number.isFinite(data.packs)){
     throw new Error("Invalid backup");
    }
+
    if(!confirm("Nhập bản sao lưu sẽ thay thế dữ liệu game hiện tại. Tiếp tục?"))return;
+
    game={...game,...data};
    if(!Number.isFinite(game.rubies))game.rubies=0;
    saveGame();
@@ -761,6 +953,7 @@ function goPage(id){
  document.querySelectorAll(".page").forEach(page=>page.classList.remove("active"));
  const target=document.getElementById(id);
  if(target)target.classList.add("active");
+
  document.querySelectorAll(".sidebar button").forEach(button=>{
   button.classList.toggle("active",button.dataset.page===id);
  });
@@ -770,7 +963,8 @@ document.querySelectorAll(".sidebar button").forEach(button=>{
  button.addEventListener("click",()=>{
   const page=button.dataset.page;
   if(page==="account"&&!game.account){
-   showSignup();return;
+   showSignup();
+   return;
   }
   goPage(page);
  });
@@ -778,8 +972,8 @@ document.querySelectorAll(".sidebar button").forEach(button=>{
 
 loadGame();
 updateUI();
+
 if(!game.account)showSignup();
 </script>
 </body>
 </html>
-```

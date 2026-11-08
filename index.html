@@ -7,38 +7,361 @@
 
 <style>
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
 }
 
 body {
-    background: #080d18;
+    margin: 0;
+    background: #080d14;
     color: white;
+    font-family: Arial, sans-serif;
 }
 
 header {
-    height: 75px;
-    background: #101a2b;
+    background: #05080d;
+    padding: 18px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 0 25px;
+    align-items: center;
     border-bottom: 2px solid #00ed72;
 }
 
 .logo {
-    color: #00ed72;
-    font-size: 27px;
+    font-size: 25px;
     font-weight: bold;
 }
 
-.profile {
-    display: flex;
-    gap: 15px;
-    align-items: center;
+.logo span {
+    color: #00ed72;
 }
 
-.profile span {
-    background: #1c
+.profile {
+    font-size: 13px;
+    text-align: right;
+}
+
+.coins {
+    color: gold;
+}
+
+.layout {
+    display: flex;
+    min-height: 90vh;
+}
+
+.sidebar {
+    width: 100px;
+    background: #05080d;
+    padding: 10px;
+}
+
+.sidebar button {
+    width: 100%;
+    padding: 17px 3px;
+    margin-bottom: 8px;
+    background: #151e29;
+    color: white;
+    border: 1px solid #293746;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.sidebar button:hover {
+    background: #008d49;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+    min-width: 0;
+}
+
+.hero {
+    padding: 30px;
+    min-height: 220px;
+    background: linear-gradient(120deg,#182b35,#07100e);
+    border: 1px solid #00ed72;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: 40px;
+    margin: 10px 0;
+}
+
+.hero p {
+    color: #aaa;
+}
+
+.club {
+    color: gold;
+}
+
+.section-title {
+    margin: 25px 0 15px;
+}
+
+#player-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.player-card {
+    background: #151e29;
+    padding: 7px;
+    border: 1px solid #394653;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.player-card:hover {
+    border-color: #00ed72;
+    transform: translateY(-3px);
+}
+
+.player-card img {
+    width: 100%;
+    border-radius: 7px;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 7px 0;
+}
+
+.player-info span {
+    color: #00ed72;
+    font-size: 12px;
+}
+
+.bottom-menu {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-top: 25px;
+}
+
+.bottom-menu button {
+    padding: 18px 5px;
+    background: #18232e;
+    color: white;
+    border: 1px solid #394653;
+    border-radius: 8px;
+}
+
+.bottom-menu .play {
+    background: #00ed72;
+    color: black;
+    font-weight: bold;
+}
+
+@media(max-width:600px) {
+    .sidebar {
+        width: 75px;
+    }
+
+    .sidebar button {
+        font-size: 10px;
+    }
+
+    main {
+        padding: 10px;
+    }
+
+    #player-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .bottom-menu {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">GERMAIN <span>FC</span></div>
+
+    <div class="profile">
+        👤 Guest_742931<br>
+        <span style="color:#00ed72">LV.1</span>
+    </div>
+
+    <div class="coins">
+        🪙 200.000 💎 100
+    </div>
+</header>
+
+<div class="layout">
+
+<aside class="sidebar">
+    <button>🏠<br>Trang chủ</button>
+    <button>🏆<br>Sự kiện</button>
+    <button>🎁<br>Quà tặng</button>
+    <button>🛒<br>Cửa hàng</button>
+    <button>📋<br>Nhiệm vụ</button>
+</aside>
+
+<main>
+
+<section class="hero">
+    <div class="club">SERIE A · ITALY</div>
+    <h1>JUVENTUS</h1>
+    <p>FINO ALLA FINE!</p>
+    <h2>⚽ OVR 65</h2>
+</section>
+
+<h2 class="section-title">⭐ DANH SÁCH CẦU THỦ</h2>
+
+<div id="player-grid"></div>
+
+<div class="bottom-menu">
+    <button>👥 Đội hình</button>
+    <button>⚙️ Chiến thuật</button>
+    <button>🔄 Thị trường</button>
+    <button>🏆 Thành tựu</button>
+    <button class="play">▶ CHƠI NGAY</button>
+</div>
+
+</main>
+</div>
+
+<script>
+
+// ẢNH TỔNG HỢP TRÊN GITHUB
+const SPRITE =
+"https://raw.githubusercontent.com/hoanggiavinh001-blip/Te-t1/main/IMG_0680.png";
+
+// DANH SÁCH CẦU THỦ
+const players = [
+["Ronaldo",107,"ST"],
+["Messi",107,"ST"],
+["Neymar",107,"LW"],
+["Bellingham",107,"CM"],
+["Van Dijk",107,"CB"],
+["Alisson",107,"GK"],
+["Salah",106,"RW"],
+["Mbappe",106,"ST"],
+["Rodri",106,"CDM"],
+["De Bruyne",106,"CAM"],
+["Vinicius",106,"LW"],
+["Zidane",105,"CAM"],
+["Haaland",105,"ST"],
+["Rudiger",105,"CB"],
+["Modric",105,"CM"],
+["Hernandez",105,"LB"],
+["Lewandowski",104,"ST"],
+["Dembele",104,"RW"],
+["Kroos",104,"CM"],
+["Courtois",104,"GK"],
+["Kane",103,"ST"],
+["Musiala",103,"CAM"],
+["Davies",103,"LB"],
+["Carvajal",103,"RB"],
+["Osimhen",102,"ST"],
+["Leao",102,"LW"],
+["Foden",101,"LW"],
+["Dias",101,"CB"],
+["Casemiro",100,"CDM"],
+["Sancho",100,"RM"],
+["Onana",100,"GK"],
+["Vlahovic",100,"ST"]
+];
+
+// VỊ TRÍ CÁC THẺ TRONG ẢNH
+// Tọa độ mẫu, cần căn theo ảnh thực tế.
+
+const boxes = Array.from(
+{length:32},
+(_,i)=>({
+    x:0.010+(i%8)*0.123,
+    y:0.008+Math.floor(i/8)*0.192,
+    w:0.115,
+    h:0.180
+})
+);
+
+// TẢI ẢNH
+const image = new Image();
+image.crossOrigin = "anonymous";
+
+image.onload = function() {
+
+    const grid = document.getElementById("player-grid");
+
+    players.forEach((player,i)=>{
+
+        const [name,ovr,pos] = player;
+        const box = boxes[i];
+
+        const canvas = document.createElement("canvas");
+
+        const sx = box.x * image.naturalWidth;
+        const sy = box.y * image.naturalHeight;
+        const sw = box.w * image.naturalWidth;
+        const sh = box.h * image.naturalHeight;
+
+        canvas.width = 300;
+        canvas.height = 400;
+
+        const ctx = canvas.getContext("2d");
+
+        ctx.drawImage(
+            image,
+            sx,sy,sw,sh,
+            0,0,300,400
+        );
+
+        const card = document.createElement("div");
+        card.className = "player-card";
+
+        const img = document.createElement("img");
+        img.src = canvas.toDataURL("image/png");
+
+        const info = document.createElement("div");
+        info.className = "player-info";
+
+        info.innerHTML = `
+            <strong>${name}</strong>
+            <span>OVR ${ovr} · ${pos}</span>
+        `;
+
+        card.appendChild(img);
+        card.appendChild(info);
+
+        card.onclick = function() {
+            alert(
+                "Đã chọn " + name +
+                "\nOVR: " + ovr +
+                "\nVị trí: " + pos
+            );
+        };
+
+        grid.appendChild(card);
+
+    });
+
+};
+
+image.onerror = function() {
+    document.getElementById("player-grid").innerHTML =
+    "Không tải được ảnh cầu thủ!";
+};
+
+image.src = SPRITE;
+
+</script>
+
+</body>
+</html>

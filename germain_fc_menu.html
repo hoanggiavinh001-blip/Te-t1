@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Germain FC - Sảnh chờ</title>
+  <style>
+    :root {
+      --green: #00ef70;
+      --green-soft: #00b95a;
+      --gold: #e9c66b;
+      --panel: rgba(9, 13, 19, .88);
+      --line: rgba(255,255,255,.13);
+      --muted: #aeb8c4;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(ellipse at 72% 48%, rgba(0, 130, 75, .23), transparent 34%),
+        radial-gradient(ellipse at 42% 65%, rgba(35, 75, 105, .28), transparent 38%),
+        linear-gradient(130deg, #05080d 0%, #101923 48%, #030609 100%);
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .2;
+      background:
+        repeating-linear-gradient(125deg, transparent 0 80px, rgba(255,255,255,.035) 81px 83px),
+        linear-gradient(180deg, transparent 55%, rgba(0,0,0,.75));
+    }
+    .app { min-height: 100vh; position: relative; isolation: isolate; }
+    .topbar {
+      height: 78px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 28px; background: rgba(0,0,0,.72); border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 900; font-size: 25px; letter-spacing: -1px; }
+    .brand-mark {
+      width: 44px; height: 44px; display: grid; place-items: center; border: 2px solid white;
+      border-radius: 50%; font-size: 12px; line-height: 1; text-align: center;
+    }
+    .brand span:last-child { color: var(--green); }
+    .account { display: flex; align-items: center; gap: 12px; margin-left: auto; margin-right: 28px; }
+    .avatar {
+      width: 43px; height: 43px; border-radius: 50%; background: #283440;
+      border: 1px solid #63717e; display: grid; place-items: center; font-size: 22px;
+    }
+    .username { font-weight: 800; }
+    .level { color: var(--green); font-size: 12px; margin-top: 4px; }
+    .wallet { display: flex; gap: 22px; align-items: center; color: #f4f6f8; font-weight: 800; }
+    .wallet span { white-space: nowrap; }
+    .coin { color: var(--gold); } .gem { color: #ff526d; } .token { color: #31e7b0; }
+    .layout { display: grid; grid-template-columns: 112px minmax(0,1fr); min-height: calc(100vh - 78px); }
+    .sidebar {
+      padding: 18px 10px; background: rgba(0,0,0,.55); border-right: 1px solid var(--line);
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .nav-item {
+      min-height: 78px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 7px; border: 1px solid transparent; border-radius: 8px; color: #d7dee5;
+      font-size: 12px; font-weight: 700; text-align: center;
+    }
+    .nav-item .icon { font-size: 25px; }
+    .nav-item.active { color: white; background: linear-gradient(90deg, rgba(0,239,112,.25), rgba(0,239,112,.04)); border-color: rgba(0,239,112,.55); box-shadow: inset 3px 0 var(--green); }
+    main { padding: 22px 26px 28px; min-width: 0; }
+    .welcome { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+    .eyebrow { color: var(--green); text-transform: uppercase; font-size: 11px; letter-spacing: 2px; font-weight: 900; }
+    h1 { margin: 5px 0 0; font-size: clamp(24px, 3vw, 38px); }
+    .status { border: 1px solid rgba(0,239,112,.45); color: #baffd6; background: rgba(0,120,60,.16); padding: 9px 13px; border-radius: 30px; font-size: 12px; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0,1.4fr) minmax(280px,.85fr); gap: 18px; }
+    .hero {
+      min-height: 430px; position: relative; overflow: hidden; border: 1px solid var(--line);
+      border-radius: 14px; padding: 28px; background:
+        radial-gradient(ellipse at 75% 35%, rgba(0,239,112,.18), transparent 36%),
+        linear-gradient(115deg, rgba(18,31,43,.96), rgba(4,8,13,.96));
+    }
+    .hero::after {
+      content: "JUVENTUS"; position: absolute; right: -8px; bottom: 16px; font-size: clamp(55px, 10vw, 130px);
+      font-weight: 900; letter-spacing: -8px; color: rgba(255,255,255,.045); pointer-events: none;
+    }
+    .club-tag { color: var(--gold); font-size: 12px; font-weight: 900; letter-spacing: 2px; }
+    .hero h2 { font-size: clamp(30px, 4vw, 48px); margin: 12px 0 6px; max-width: 440px; }
+    .hero p { color: var(--muted); margin: 0; max-width: 380px; line-height: 1.5; }
+    .player-placeholder {
+      position: absolute; right: 7%; bottom: 0; width: 34%; height: 72%;
+      border: 1px dashed rgba(255,255,255,.25); border-bottom: 0; border-radius: 48% 48% 0 0;
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(0,0,0,.2));
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      color: rgba(255,255,255,.48); font-size: 12px; padding: 16px;
+    }
+    .club-crest {
+      width: 78px; height: 78px; border: 2px solid var(--gold); color: white; display: grid; place-items: center;
+      font-size: 35px; font-weight: 900; margin-top: 25px; transform: skew(-8deg);
+      background: rgba(0,0,0,.35); box-shadow: 0 0 28px rgba(233,198,107,.12);
+    }
+    .hero-bottom { position: absolute; left: 28px; bottom: 24px; z-index: 1; }
+    .hero-bottom strong { display: block; font-size: 18px; }
+    .hero-bottom small { color: var(--muted); }
+    .right-column { display: grid; grid-template-rows: 1fr 1fr; gap: 18px; }
+    .tile {
+      min-height: 195px; border: 1px solid var(--line); border-radius: 14px; padding: 22px;
+      background: linear-gradient(135deg, rgba(24,38,53,.96), rgba(5,9,14,.96));
+      position: relative; overflow: hidden;
+    }
+    .tile::after { content: ""; position: absolute; width: 170px; height: 170px; border: 1px solid rgba(0,239,112,.2); border-radius: 50%; right: -45px; bottom: -75px; box-shadow: 0 0 0 18px rgba(0,239,112,.035), 0 0 0 38px rgba(0,239,112,.025); }
+    .tile h3 { margin: 0 0 10px; font-size: 20px; }
+    .tile p { color: var(--muted); margin: 0; font-size: 13px; line-height: 1.5; max-width: 230px; }
+    .tile .tile-icon { font-size: 32px; margin-bottom: 10px; }
+    .bottom-nav {
+      margin-top: 18px; display: grid; grid-template-columns: repeat(5,1fr); gap: 10px;
+    }
+    .bottom-item {
+      min-height: 75px; border: 1px solid var(--line); border-radius: 10px; background: rgba(0,0,0,.55);
+      display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 800; color: #dce3e9;
+    }
+    .bottom-item b { font-size: 21px; }
+    .bottom-item.play { background: linear-gradient(100deg, #00c95e, #00f47b); color: #001b0d; border: 0; }
+    .footer-note { color: #75818d; font-size: 11px; text-align: center; margin-top: 15px; }
+    @media (max-width: 850px) {
+      .topbar { padding: 0 14px; } .wallet { gap: 9px; font-size: 12px; } .account { margin-right: 10px; }
+      .layout { grid-template-columns: 76px minmax(0,1fr); } .nav-item { font-size: 10px; min-height: 68px; }
+      main { padding: 16px 12px; } .hero-grid { grid-template-columns: 1fr; } .right-column { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .hero { min-height: 370px; } .bottom-nav { grid-template-columns: repeat(2,1fr); } .bottom-item.play { grid-column: span 2; }
+    }
+    @media (max-width: 560px) {
+      .brand { font-size: 17px; } .brand-mark { width: 34px; height: 34px; font-size: 9px; }
+      .account .username, .account .level { display: none; } .wallet span:nth-child(3) { display: none; }
+      .topbar { height: 66px; } .layout { min-height: calc(100vh - 66px); }
+      .sidebar { padding: 10px 5px; } .nav-item .icon { font-size: 20px; }
+      .right-column { grid-template-columns: 1fr; } .tile { min-height: 145px; }
+      .player-placeholder { width: 42%; right: 3%; height: 58%; }
+      .hero { min-height: 350px; padding: 20px; } .hero-bottom { left: 20px; bottom: 18px; }
+      .welcome { align-items: flex-start; gap: 10px; flex-direction: column; }
+      .status { font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">EA<br>SPORTS</span><span>GERMAIN <span>FC</span></span></div>
+    <div class="account">
+      <div class="avatar">👤</div>
+      <div><div class="username">Guest_742931</div><div class="level">LV. 1 · 0 / 100 XP</div></div>
+    </div>
+    <div class="wallet">
+      <span class="coin">◉ 200.000</span><span class="gem">◆ 100</span><span class="token">⬡ 0</span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="Điều hướng chính">
+      <div class="nav-item active"><span class="icon">⌂</span>Trang chủ</div>
+      <div class="nav-item"><span class="icon">🏆</span>Sự kiện</div>
+      <div class="nav-item"><span class="icon">🎁</span>Quà miễn phí</div>
+      <div class="nav-item"><span class="icon">🛒</span>Cửa hàng</div>
+      <div class="nav-item"><span class="icon">☷</span>Nhiệm vụ</div>
+    </aside>
+
+    <main>
+      <section class="welcome">
+        <div><div class="eyebrow">Chào mừng trở lại</div><h1>SẢNH CHỜ CÂU LẠC BỘ</h1></div>
+        <div class="status">● Đã đăng nhập bằng tài khoản khách</div>
+      </section>
+
+      <section class="hero-grid">
+        <article class="hero">
+          <div class="club-tag">SERIE A · ITALY</div>
+          <h2>JUVENTUS</h2>
+          <p>Fino Alla Fine. Xây dựng đội hình trong mơ và chinh phục sân cỏ.</p>
+          <div class="club-crest">J</div>
+          <div class="player-placeholder">VỊ TRÍ HÌNH CẦU THỦ<br>SẼ ĐƯỢC THÊM SAU</div>
+          <div class="hero-bottom"><strong>JUVENTUS FC</strong><small>Đội bóng hiện tại · OVR 65</small></div>
+        </article>
+
+        <div class="right-column">
+          <article class="tile">
+            <div class="tile-icon">⚽</div>
+            <h3>CHƠI TRẬN ĐẤU</h3>
+            <p>Bước vào sân, thử sức với đối thủ và giành chiến thắng đầu tiên.</p>
+          </article>
+          <article class="tile">
+            <div class="tile-icon">🏆</div>
+            <h3>SỰ KIỆN ĐẶC BIỆT</h3>
+            <p>Hoàn thành thử thách để nhận phần thưởng và nâng cấp câu lạc bộ.</p>
+          </article>
+        </div>
+      </section>
+
+      <nav class="bottom-nav" aria-label="Menu câu lạc bộ">
+        <div class="bottom-item"><b>♙</b> Đội hình</div>
+        <div class="bottom-item"><b>⚙</b> Chiến thuật</div>
+        <div class="bottom-item"><b>⇄</b> Thị trường</div>
+        <div class="bottom-item"><b>♜</b> Câu lạc bộ</div>
+        <div class="bottom-item play"><b>▶</b> CHƠI NGAY</div>
+      </nav>
+      <div class="footer-note">BẢN GIAO DIỆN HTML/CSS · CÁC NÚT SẼ ĐƯỢC KẾT NỐI BẰNG JAVASCRIPT Ở BƯỚC SAU</div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

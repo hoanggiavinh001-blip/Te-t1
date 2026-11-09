@@ -72,6 +72,22 @@ main{flex:1;padding:18px;min-width:0}
 #reveal-card{display:none;text-align:center;background:#182c37;border:1px solid gold;border-radius:12px;padding:18px;margin-top:15px}
 #reveal-card strong{font-size:24px;color:gold}
 #shop-reveal-card{display:none;text-align:center}
+
+/* CUTSCENE MỞ PACK */
+#pack-cutscene{z-index:2100;background:radial-gradient(circle at center,#1b3440 0%,#020609 75%)}
+#cutscene-box{max-width:460px;text-align:center;border:1px solid #d7b64b;background:linear-gradient(160deg,#172b38,#05090f);box-shadow:0 0 35px #00ed7266}
+#cutscene-step{font-size:13px;letter-spacing:3px;color:#00ed72;font-weight:bold}
+#cutscene-main{min-height:115px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:15px 0}
+#cutscene-main h2{font-size:32px;color:gold;margin:5px}
+#cutscene-main .cutscene-sub{font-size:18px;color:#dce7e8}
+#cutscene-player-image{width:190px;max-width:70%;aspect-ratio:3/4;object-fit:cover;border:2px solid gold;border-radius:12px;box-shadow:0 0 25px #ffd70055}
+
+/* HIỆU ỨNG CẦU THỦ GHI BÀN */
+#goal-celebration{display:none;margin:14px auto;padding:14px;background:linear-gradient(120deg,#243b2e,#182635);border:2px solid gold;border-radius:12px;text-align:center;max-width:300px;animation:goalPop .35s ease-out}
+#goal-celebration img{width:125px;aspect-ratio:3/4;object-fit:cover;border:2px solid gold;border-radius:8px;display:block;margin:8px auto}
+#goal-celebration strong{display:block;color:gold;font-size:20px}
+@keyframes goalPop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+
 @media(max-width:650px){
  header{padding:10px}
  .logo{font-size:20px}
@@ -224,6 +240,12 @@ main{flex:1;padding:18px;min-width:0}
  </div>
  <div class="match-label" id="match-status">SẴN SÀNG RA SÂN</div>
  <p id="match-log">Bấm chơi ngay để bắt đầu trận đấu.</p>
+ <div id="goal-celebration" aria-live="polite">
+  <p>⚽ NGƯỜI GHI BÀN</p>
+  <img id="goal-player-image" alt="Cầu thủ ghi bàn">
+  <strong id="goal-player-name"></strong>
+  <span id="goal-player-info"></span>
+ </div>
  <button class="btn" id="play-button" onclick="playMatch()">▶ CHƠI NGAY</button>
 </section>
 
@@ -244,6 +266,16 @@ main{flex:1;padding:18px;min-width:0}
   <p class="notice">Cầu thủ đang đá ở vị trí được chọn sẽ chuyển xuống khu vực dự bị.</p>
   <button class="btn" onclick="confirmSubstitution()">XÁC NHẬN THAY NGƯỜI</button>
   <button class="btn secondary" onclick="closeSubModal()">HỦY</button>
+ </div>
+</div>
+
+<!-- CUTSCENE PACK -->
+<div class="modal" id="pack-cutscene">
+ <div class="modal-box" id="cutscene-box">
+  <div id="cutscene-step">GERMAIN FC · PLAYER REVEAL</div>
+  <div id="cutscene-main"></div>
+  <button class="btn" id="cutscene-next" onclick="advancePackCutscene()">TIẾP THEO</button>
+  <button class="btn secondary" id="cutscene-skip" onclick="finishPackCutscene()">BỎ QUA HIỆU ỨNG</button>
  </div>
 </div>
 
@@ -298,6 +330,11 @@ let currentReveal=null;
 let currentShopReveal=null;
 let selectedReserveId=null;
 let matchRunning=false;
+let isOpeningPack=false;
+let cutscenePlayer=null;
+let cutsceneStep=0;
+let cutsceneTimer=null;
+let currentGoalScorer=null;
 
 function saveGame(){
  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(game));}
@@ -427,10 +464,11 @@ function renderPacks(){
  });
 }
 
+/* MỞ PACK VÀ CUTSCENE */
 function openPack(){
- if(game.packs<=0)return;
- let position;
+ if(game.packs<=0||isOpeningPack)return;
 
+ let position;
  if(game.starterReceived&&game.collection.length<11){
   position=positions[game.collection.length];
  }else{
@@ -442,16 +480,122 @@ function openPack(){
  game.collection.push(player);
  currentReveal=player;
 
+ saveGame();
+ updateUI();
+
+ if(player.ovr>105){
+  startPackCutscene(player);
+ }else{
+  showNormalPackReveal(player);
+ }
+}
+
+function showNormalPackReveal(player){
  document.getElementById("reveal-image").src=makePlayerImage(player);
  document.getElementById("reveal-name").textContent=player.name;
  document.getElementById("reveal-ovr").textContent="OVR "+player.ovr;
  document.getElementById("reveal-position").textContent=
-  positionNames[player.pos]+" · "+player.pos;
+  positionNames[player.pos]+" · "+player.pos+" · "+getPlayerClub(player);
  document.getElementById("reveal-card").style.display="block";
-
- saveGame();
- updateUI();
  document.getElementById("reveal-card").scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+function getPlayerClub(player){
+ const clubs={
+  Ronaldo:"Al Nassr",Messi:"Inter Miami",Neymar:"Santos",
+  Bellingham:"Real Madrid","Van Dijk":"Liverpool",Alisson:"Liverpool",
+  Salah:"Liverpool",Mbappe:"Real Madrid",Rodri:"Manchester City",
+  "De Bruyne":"Napoli",Vinicius:"Real Madrid",Zidane:"Real Madrid",
+  Haaland:"Manchester City",Rudiger:"Real Madrid",Modric:"Real Madrid",
+  Hernandez:"AC Milan",Lewandowski:"Barcelona",Dembele:"Paris Saint-Germain",
+  Kroos:"Real Madrid",Courtois:"Real Madrid",Kane:"Bayern Munich",
+  Musiala:"Bayern Munich",Davies:"Bayern Munich",Carvajal:"Real Madrid",
+  Osimhen:"Galatasaray",Leao:"AC Milan",Foden:"Manchester City",
+  Dias:"Manchester City",Casemiro:"Manchester United",Sancho:"Aston Villa",
+  Onana:"Manchester United",Vlahovic:"Juventus"
+ };
+ return clubs[player.name]||"CLB chưa xác định";
+}
+
+function startPackCutscene(player){
+ isOpeningPack=true;
+ cutscenePlayer=player;
+ cutsceneStep=0;
+ document.getElementById("reveal-card").style.display="none";
+ document.getElementById("pack-cutscene").style.display="flex";
+ renderPackCutsceneStep();
+}
+
+function renderPackCutsceneStep(){
+ clearTimeout(cutsceneTimer);
+ const player=cutscenePlayer;
+ if(!player)return;
+
+ const step=document.getElementById("cutscene-step");
+ const main=document.getElementById("cutscene-main");
+ const next=document.getElementById("cutscene-next");
+
+ if(cutsceneStep===0){
+  step.textContent="GIAI ĐOẠN 1 · VỊ TRÍ";
+  main.innerHTML=
+   '<div style="font-size:54px">⚽</div><h2>'+
+   escapeHTML(player.pos)+'</h2><div class="cutscene-sub">'+
+   escapeHTML(positionNames[player.pos]||player.pos)+'</div>';
+  next.textContent="TIẾP THEO";
+
+  cutsceneTimer=setTimeout(()=>{
+   if(cutsceneStep===0){
+    cutsceneStep=1;
+    renderPackCutsceneStep();
+   }
+  },1250);
+
+ }else if(cutsceneStep===1){
+  step.textContent="GIAI ĐOẠN 2 · CÂU LẠC BỘ";
+  main.innerHTML=
+   '<div style="font-size:54px">🏟️</div><h2>'+
+   escapeHTML(getPlayerClub(player))+'</h2><div class="cutscene-sub">'+
+   escapeHTML(player.name)+'</div>';
+  next.textContent="LẬT THẺ CẦU THỦ";
+
+  cutsceneTimer=setTimeout(()=>{
+   if(cutsceneStep===1){
+    cutsceneStep=2;
+    renderPackCutsceneStep();
+   }
+  },1450);
+
+ }else{
+  step.textContent="GIAI ĐOẠN 3 · PLAYER REVEAL";
+  main.innerHTML=
+   '<img id="cutscene-player-image" src="'+makePlayerImage(player)+
+   '" alt="Ảnh thẻ '+escapeHTML(player.name)+'"><h2>'+
+   escapeHTML(player.name)+'</h2><div class="cutscene-sub">OVR '+
+   player.ovr+' · '+escapeHTML(player.pos)+' · '+
+   escapeHTML(getPlayerClub(player))+'</div>';
+  next.textContent="ĐÓNG";
+ }
+}
+
+function advancePackCutscene(){
+ clearTimeout(cutsceneTimer);
+ if(!cutscenePlayer)return;
+
+ if(cutsceneStep<2){
+  cutsceneStep++;
+  renderPackCutsceneStep();
+ }else{
+  finishPackCutscene();
+ }
+}
+
+function finishPackCutscene(){
+ clearTimeout(cutsceneTimer);
+ document.getElementById("pack-cutscene").style.display="none";
+ isOpeningPack=false;
+ cutscenePlayer=null;
+ currentReveal=null;
+ renderPacks();
 }
 
 function closeReveal(){
@@ -605,8 +749,6 @@ function confirmSubstitution(){
 
  if(!reserve||!oldPlayer)return;
 
- // Đưa cầu thủ dự bị vào vị trí đã chọn.
- // Cầu thủ cũ tự động trở thành cầu thủ dự bị.
  game.squad[slotIndex]=reserve;
 
  saveGame();
@@ -666,6 +808,7 @@ function clearSquad(){
  document.getElementById("squad-message").textContent="Đã xóa đội hình.";
 }
 
+/* ẢNH THẺ CẦU THỦ */
 const boxes=Array.from({length:32},(_,i)=>({
  x:0.010+(i%8)*0.123,
  y:0.008+Math.floor(i/8)*0.192,
@@ -686,6 +829,12 @@ spriteImage.onload=()=>{
  }
  if(currentShopReveal){
   document.getElementById("shop-reveal-image").src=makePlayerImage(currentShopReveal);
+ }
+ if(cutscenePlayer&&document.getElementById("cutscene-player-image")){
+  document.getElementById("cutscene-player-image").src=makePlayerImage(cutscenePlayer);
+ }
+ if(currentGoalScorer&&document.getElementById("goal-celebration").style.display==="block"){
+  document.getElementById("goal-player-image").src=makePlayerImage(currentGoalScorer);
  }
 };
 
@@ -751,10 +900,51 @@ function renderCollection(){
  });
 }
 
+/* HOẠT ẢNH TRẬN ĐẤU */
 function animateElement(element,keyframes,duration){
  return element.animate(keyframes,{
   duration,easing:"ease-in-out",fill:"forwards"
  }).finished;
+}
+
+/* TỶ LỆ GHI BÀN THEO VỊ TRÍ */
+function getScoringChance(player){
+ if(!player)return 0.10;
+
+ if(["ST","LW","RW"].includes(player.pos))return 0.85;
+ if(["CAM","CM","CDM"].includes(player.pos))return 0.50;
+ if(["LB","CB","RB"].includes(player.pos))return 0.20;
+ if(player.pos==="GK")return 0.10;
+
+ return 0.35;
+}
+
+function pickMatchScorer(){
+ const starters=game.squad.filter(Boolean);
+
+ if(!starters.length){
+  return {name:"Cầu thủ GERMAIN FC",ovr:0,pos:"ST"};
+ }
+
+ return starters[Math.floor(Math.random()*starters.length)];
+}
+
+/* HIỆN ẢNH CẦU THỦ KHI GHI BÀN */
+function showGoalScorer(player){
+ currentGoalScorer=player;
+
+ const panel=document.getElementById("goal-celebration");
+ document.getElementById("goal-player-image").src=makePlayerImage(player);
+ document.getElementById("goal-player-name").textContent=player.name;
+ document.getElementById("goal-player-info").textContent=
+  "OVR "+player.ovr+" · "+player.pos;
+
+ panel.style.display="block";
+}
+
+function hideGoalScorer(){
+ currentGoalScorer=null;
+ document.getElementById("goal-celebration").style.display="none";
 }
 
 async function playMatch(){
@@ -767,6 +957,7 @@ async function playMatch(){
  }
 
  matchRunning=true;
+
  const button=document.getElementById("play-button");
  const runner=document.getElementById("runner");
  const ball=document.getElementById("ball");
@@ -779,7 +970,9 @@ async function playMatch(){
 
  let goals=0;
  let conceded=0;
+
  scoreLabel.textContent="0 - 0";
+ hideGoalScorer();
 
  runner.style.left="10%";
  runner.style.top="65%";
@@ -795,6 +988,7 @@ async function playMatch(){
  try{
   for(let shot=0;shot<3;shot++){
    const moves=attacks[shot];
+
    runner.style.left=moves[0][0];
    runner.style.top=moves[0][1];
    ball.style.left=moves[0][2];
@@ -802,6 +996,7 @@ async function playMatch(){
 
    for(let i=0;i<moves.length;i++){
     const m=moves[i];
+
     status.textContent="⚽ TẤN CÔNG "+(shot+1)+"/3";
     log.textContent="GERMAIN FC đang phối hợp và dẫn bóng...";
 
@@ -810,6 +1005,7 @@ async function playMatch(){
       {left:runner.style.left,top:runner.style.top},
       {left:m[0],top:m[1]}
      ],500),
+
      animateElement(ball,[
       {left:ball.style.left,top:ball.style.top},
       {left:m[2],top:m[3]}
@@ -831,17 +1027,22 @@ async function playMatch(){
     {left:"100%",top:"50%",transform:"scale(.7)"}
    ],650);
 
-   if(Math.random()<0.75){
+   const shooter=pickMatchScorer();
+   const scoringChance=getScoringChance(shooter);
+
+   if(Math.random()<scoringChance){
     goals++;
     status.textContent="⚽ GOOOOAL!";
-    log.textContent="GERMAIN FC ghi bàn! ("+goals+" bàn)";
+    log.textContent=shooter.name+" ghi bàn! ("+goals+" bàn)";
+    showGoalScorer(shooter);
    }else{
     status.textContent="🥅 THỦ MÔN CẢN PHÁ!";
-    log.textContent="Cú sút bị cản phá.";
+    log.textContent=shooter.name+" dứt điểm nhưng không thành công.";
+    hideGoalScorer();
    }
 
    scoreLabel.textContent=goals+" - "+conceded;
-   await new Promise(resolve=>setTimeout(resolve,500));
+   await new Promise(resolve=>setTimeout(resolve,1100));
   }
 
   status.textContent="🛡️ PHÒNG NGỰ!";
@@ -849,27 +1050,33 @@ async function playMatch(){
   await new Promise(resolve=>setTimeout(resolve,700));
 
   if(Math.random()<0.22)conceded=1;
+
   scoreLabel.textContent=goals+" - "+conceded;
 
   game.packs+=2;
   game.coins+=1000;
+
   if(goals>conceded)game.wins++;
 
   if(goals>=2&&conceded===0){
    game.rubies=(game.rubies||0)+1000;
    status.textContent="🏆 THẮNG SẠCH LƯỚI!";
-   log.textContent="Kết quả "+goals+" - 0! Bạn nhận 1.000 Ruby, 2 pack và 1.000 coin!";
+   log.textContent=
+    "Kết quả "+goals+" - 0! Bạn nhận 1.000 Ruby, 2 pack và 1.000 coin!";
   }else{
    status.textContent=goals>conceded?"🏆 CHIẾN THẮNG!":"⚽ KẾT THÚC TRẬN!";
-   log.textContent="Kết quả "+goals+" - "+conceded+
+   log.textContent=
+    "Kết quả "+goals+" - "+conceded+
     ". Bạn nhận 2 pack và 1.000 coin. Muốn nhận Ruby, hãy ghi ít nhất 2 bàn và không thủng lưới!";
   }
 
   saveGame();
   updateUI();
+
  }catch(error){
   console.error(error);
   log.textContent="Trận đấu gặp lỗi hoạt ảnh. Hãy thử lại.";
+
  }finally{
   matchRunning=false;
   button.disabled=false;
@@ -915,9 +1122,11 @@ function exportBackup(){
  const blob=new Blob([JSON.stringify(game,null,2)],{type:"application/json"});
  const url=URL.createObjectURL(blob);
  const a=document.createElement("a");
+
  a.href=url;
  a.download="GERMAIN-FC-BACKUP.json";
  a.click();
+
  URL.revokeObjectURL(url);
 }
 
@@ -926,6 +1135,7 @@ function importBackup(event){
  if(!file)return;
 
  const reader=new FileReader();
+
  reader.onload=()=>{
   try{
    const data=JSON.parse(reader.result);
@@ -938,19 +1148,25 @@ function importBackup(event){
    if(!confirm("Nhập bản sao lưu sẽ thay thế dữ liệu game hiện tại. Tiếp tục?"))return;
 
    game={...game,...data};
+
    if(!Number.isFinite(game.rubies))game.rubies=0;
+
    saveGame();
    updateUI();
+
    alert("Khôi phục bản sao lưu thành công!");
+
   }catch(error){
    alert("File sao lưu không hợp lệ!");
   }
  };
+
  reader.readAsText(file);
 }
 
 function goPage(id){
  document.querySelectorAll(".page").forEach(page=>page.classList.remove("active"));
+
  const target=document.getElementById(id);
  if(target)target.classList.add("active");
 
@@ -962,10 +1178,12 @@ function goPage(id){
 document.querySelectorAll(".sidebar button").forEach(button=>{
  button.addEventListener("click",()=>{
   const page=button.dataset.page;
+
   if(page==="account"&&!game.account){
    showSignup();
    return;
   }
+
   goPage(page);
  });
 });

@@ -174,29 +174,29 @@ main{flex:1;padding:18px;min-width:0}
   <p class="notice">Dùng Ruby kiếm được từ trận đấu để mua gói cầu thủ đặc biệt.</p>
  </div>
  <div class="pack-grid">
-   <div class="pack" style="border-color:#ff4dca">
-    <div class="pack-icon">💎</div>
-    <h3>GÓI CẦU THỦ 107 OVR</h3>
-    <p>Nhận ngẫu nhiên cầu thủ 107 OVR trở lên.</p>
-    <div class="rubies">♦ 5.000 RUBY</div>
-    <button class="btn" onclick="buyShopPack(107,5000)">MUA GÓI</button>
-   </div>
-   <div class="pack" style="border-color:#ff4dca">
-    <div class="pack-icon">🌟</div>
-    <h3>GÓI CẦU THỦ 105 OVR</h3>
-    <p>Nhận ngẫu nhiên cầu thủ 105 OVR trở lên.</p>
-    <div class="rubies">♦ 2.000 RUBY</div>
-    <button class="btn" onclick="buyShopPack(105,2000)">MUA GÓI</button>
-   </div>
-   <div class="pack" style="border-color:#ffd86b;background:linear-gradient(145deg,#59451c,#111d2a)">
-    <div class="pack-icon">👑</div>
-    <h3>GÓI HUYỀN THOẠI 118-120 OVR</h3>
-    <p>Nhận ngẫu nhiên một cầu thủ từ 118 đến 120 OVR.</p>
-    <div class="rubies">♦ 10.000 RUBY</div>
-    <button class="btn" onclick="buyShopPack(118,10000)">MUA GÓI</button>
-   </div>
+  <div class="pack" style="border-color:#ff4dca">
+   <div class="pack-icon">💎</div>
+   <h3>GÓI CẦU THỦ 107 OVR</h3>
+   <p>Nhận ngẫu nhiên cầu thủ 107 OVR trở lên.</p>
+   <div class="rubies">♦ 5.000 RUBY</div>
+   <button class="btn" onclick="buyShopPack(107,5000)">MUA GÓI</button>
   </div>
-  <div id="shop-reveal-card" class="panel">
+  <div class="pack" style="border-color:#ff4dca">
+   <div class="pack-icon">🌟</div>
+   <h3>GÓI CẦU THỦ 105 OVR</h3>
+   <p>Nhận ngẫu nhiên cầu thủ 105 OVR trở lên.</p>
+   <div class="rubies">♦ 2.000 RUBY</div>
+   <button class="btn" onclick="buyShopPack(105,2000)">MUA GÓI</button>
+  </div>
+  <div class="pack" style="border-color:#ffd86b;background:linear-gradient(145deg,#59451c,#111d2a)">
+   <div class="pack-icon">👑</div>
+   <h3>GÓI HUYỀN THOẠI 118-120 OVR</h3>
+   <p>Nhận ngẫu nhiên một bản thẻ mới từ 118 đến 120 OVR.</p>
+   <div class="rubies">♦ 10.000 RUBY</div>
+   <button class="btn" onclick="buyShopPack(118,10000)">MUA GÓI</button>
+  </div>
+ </div>
+ <div id="shop-reveal-card" class="panel">
   <h3>🎉 MỞ GÓI SHOP THÀNH CÔNG!</h3>
   <img id="shop-reveal-image" class="reveal-image" alt="Cầu thủ từ shop">
   <strong id="shop-reveal-name"></strong>
@@ -316,20 +316,13 @@ const players=[
 ["Musiala",103,"CAM"],["Davies",103,"LB"],["Carvajal",103,"RB"],
 ["Osimhen",102,"ST"],["Leao",102,"LW"],["Foden",101,"LW"],
 ["Dias",101,"CB"],["Casemiro",100,"CDM"],["Sancho",100,"RM"],
-["Onana",100,"GK"],["Vlahovic",100,"ST"]
+["Onana",100,"GK"],["Vlahovic",100,"ST"],
+// CÁC BẢN THẺ MỚI TỪ IMG_0683.jpeg - GIỮ NGUYÊN THẺ CŨ
+["Cruyff",119,"LW"],["Pelé",120,"ST"],["Maradona",119,"CAM"],
+["Zidane 119",119,"CAM"],["Ronaldo Nazário",119,"ST"],
+["Mbappé 120",120,"LW"],["Haaland 120",120,"ST"],
+["Messi 120",120,"RW"],["De Bruyne 118",118,"CM"],["Van Dijk 119",119,"CB"]
 ];
-
-// Cập nhật OVR và vị trí theo bộ thẻ IMG_0683.jpeg.
-const newPlayerData={
- "Ronaldo":[119,"ST"],"Messi":[120,"RW"],"Zidane":[119,"CAM"],
- "Mbappe":[120,"LW"],"Haaland":[120,"ST"],
- "De Bruyne":[118,"CM"],"Van Dijk":[119,"CB"]
-};
-players.forEach(player=>{
- const updated=newPlayerData[player[0]];
- if(updated){player[1]=updated[0];player[2]=updated[1];}
-});
-players.push(["Cruyff",119,"LW"],["Pele",120,"ST"],["Maradona",119,"CAM"]);
 
 const positions=["GK","LB","CB","CB","RB","CDM","CM","CAM","LW","ST","RW"];
 
@@ -532,7 +525,11 @@ function getPlayerClub(player){
   Osimhen:"Galatasaray",Leao:"AC Milan",Foden:"Manchester City",
   Dias:"Manchester City",Casemiro:"Manchester United",Sancho:"Aston Villa",
   Onana:"Manchester United",Vlahovic:"Juventus",
-  Cruyff:"Ajax",Pele:"Santos",Maradona:"Napoli"
+  Cruyff:"Ajax", "Pelé":"Santos", Maradona:"Napoli",
+  "Zidane 119":"Real Madrid", "Ronaldo Nazário":"Real Madrid",
+  "Mbappé 120":"Paris Saint-Germain", "Haaland 120":"Manchester City",
+  "Messi 120":"Paris Saint-Germain", "De Bruyne 118":"Manchester City",
+  "Van Dijk 119":"Liverpool"
  };
  return clubs[player.name]||"CLB chưa xác định";
 }
@@ -861,45 +858,61 @@ spriteImage.onload=()=>{
 spriteImage.onerror=()=>console.warn("Không tải được ảnh sprite.");
 spriteImage.src=SPRITE;
 
-// Sprite mới IMG_0683.jpeg, bố cục 5 cột x 2 hàng.
+// ẢNH RIÊNG CHO 10 BẢN THẺ MỚI: 5 CỘT x 2 HÀNG.
+// Không thay ảnh IMG_0680.png của các thẻ cầu thủ cũ.
 const NEW_SPRITE="https://raw.githubusercontent.com/hoanggiavinh001-blip/Te-t1/main/IMG_0683.jpeg";
 const newSpriteImage=new Image();
 newSpriteImage.crossOrigin="anonymous";
 const newPlayerCardIndexes={
- "Cruyff":0,"Pele":1,"Maradona":2,"Zidane":3,"Ronaldo":4,
- "Mbappe":5,"Haaland":6,"Messi":7,"De Bruyne":8,"Van Dijk":9
+ "Cruyff":0,"Pelé":1,"Maradona":2,"Zidane 119":3,"Ronaldo Nazário":4,
+ "Mbappé 120":5,"Haaland 120":6,"Messi 120":7,"De Bruyne 118":8,"Van Dijk 119":9
 };
 
 newSpriteImage.onload=()=>{
  renderCollection();
  renderSquad();
  renderBench();
- if(currentReveal)document.getElementById("reveal-image").src=makePlayerImage(currentReveal);
- if(currentShopReveal)document.getElementById("shop-reveal-image").src=makePlayerImage(currentShopReveal);
- if(cutscenePlayer&&document.getElementById("cutscene-player-image"))
+
+ if(currentReveal){
+  document.getElementById("reveal-image").src=makePlayerImage(currentReveal);
+ }
+ if(currentShopReveal){
+  document.getElementById("shop-reveal-image").src=makePlayerImage(currentShopReveal);
+ }
+ if(cutscenePlayer&&document.getElementById("cutscene-player-image")){
   document.getElementById("cutscene-player-image").src=makePlayerImage(cutscenePlayer);
- if(currentGoalScorer&&document.getElementById("goal-celebration").style.display==="block")
+ }
+ if(currentGoalScorer&&document.getElementById("goal-celebration").style.display==="block"){
   document.getElementById("goal-player-image").src=makePlayerImage(currentGoalScorer);
+ }
 };
+
 newSpriteImage.onerror=()=>console.warn("Không tải được ảnh IMG_0683.jpeg.");
 newSpriteImage.src=NEW_SPRITE;
 
 function makePlayerImage(player){
  const newIndex=newPlayerCardIndexes[player.name];
+
  if(newIndex!==undefined&&newSpriteImage.complete&&newSpriteImage.naturalWidth>0){
   const canvas=document.createElement("canvas");
-  canvas.width=300;canvas.height=400;
+  canvas.width=300;
+  canvas.height=400;
   const ctx=canvas.getContext("2d");
+
   const cellWidth=newSpriteImage.naturalWidth/5;
   const cellHeight=newSpriteImage.naturalHeight/2;
   const column=newIndex%5;
   const row=Math.floor(newIndex/5);
   const padX=cellWidth*0.025;
   const padY=cellHeight*0.025;
+
   ctx.drawImage(newSpriteImage,
-   column*cellWidth+padX,row*cellHeight+padY,
-   cellWidth-padX*2,cellHeight-padY*2,
+   column*cellWidth+padX,
+   row*cellHeight+padY,
+   cellWidth-padX*2,
+   cellHeight-padY*2,
    0,0,canvas.width,canvas.height);
+
   return canvas.toDataURL("image/png");
  }
 
@@ -909,7 +922,7 @@ function makePlayerImage(player){
  canvas.height=400;
  const ctx=canvas.getContext("2d");
 
- if(spriteImage.complete&&spriteImage.naturalWidth&&index>=0){
+ if(spriteImage.complete&&spriteImage.naturalWidth&&index>=0&&index<boxes.length){
   const box=boxes[index];
   ctx.drawImage(spriteImage,
    box.x*spriteImage.naturalWidth,
@@ -930,6 +943,7 @@ function makePlayerImage(player){
   ctx.font="24px Arial";
   ctx.fillText(player.pos,150,270);
  }
+
  return canvas.toDataURL("image/png");
 }
 
@@ -968,9 +982,10 @@ function animateElement(element,keyframes,duration){
  }).finished;
 }
 
-/* TỶ LỆ GHI BÀN THEO VỊ TRÍ */
+/* TỶ LỆ GHI BÀN THEO VỊ TRÍ VÀ OVR */
 function getScoringChance(player){
  if(!player)return 0.10;
+
  let baseChance=0.10;
  if(["ST","LW","RW"].includes(player.pos))baseChance=0.85;
  else if(["CAM","CM","CDM"].includes(player.pos))baseChance=0.50;
@@ -978,9 +993,9 @@ function getScoringChance(player){
  else if(player.pos==="GK")baseChance=0.10;
  else baseChance=0.35;
 
- // OVR cao hơn làm tăng khả năng ghi bàn.
- const ovrBonus=1+Math.max(0,(player.ovr||0)-100)*0.025;
- return Math.min(0.98,baseChance*ovrBonus);
+ // OVR càng cao thì cơ hội ghi bàn càng tăng.
+ const ovrBonus=Math.max(0,(player.ovr||0)-100)*0.006;
+ return Math.min(0.98,baseChance+ovrBonus);
 }
 
 function pickMatchScorer(){
@@ -1258,3 +1273,4 @@ updateUI();
 if(!game.account)showSignup();
 </script>
 </body>
+</html>
